@@ -1,0 +1,152 @@
+<table style="float: left">
+    <tbody>
+        <tr>
+            <td id="0">0</td>
+            <td id="1">1</td>
+            <td id="2">2</td>
+            <td id="3">3</td>
+            <td id="4">4</td>
+        </tr>
+        <tr>
+            <td id="5">5</td>
+            <td id="6">6</td>
+            <td id="7">7</td>
+            <td id="8">8</td>
+            <td id="9">9</td>
+        </tr>
+        <tr>
+            <td id="10">10</td>
+            <td id="11">11</td>
+            <td id="12">12</td>
+            <td id="13">13</td>
+            <td id="14">14</td>
+        </tr>
+        <tr>
+            <td id="15">15</td>
+            <td id="16">16</td>
+            <td id="17">17</td>
+            <td id="18">18</td>
+            <td id="19">19</td>
+        </tr>
+        <tr>
+            <td id="20">20</td>
+            <td id="21">21</td>
+            <td id="22">22</td>
+            <td id="23">23</td>
+            <td id="24">24</td>
+        </tr>
+    </tbody>
+</table>
+<div style="float: left">
+    <h2>Player: <span class="player-num"></span></h2>
+    <h2>Current turn: Player <span class="player-turn"></span></h2>
+    <br />
+    <h2>Moves: <span class="player-moves"></span></h2>
+    <br /><br />
+    <button id="end-turn">End Turn</button>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+    $(function () {
+        var socket = io();
+        var playerNum;
+        $("#end-turn").hide();
+
+        $.get("/api/players", function (data) {
+            playerNum = data.length;
+            $(".player-num").text(playerNum);
+            console.log(data.length);
+            if (data.length === 2) {
+                console.log("start 0");
+                socket.emit("startGame", true);
+            }
+        });
+
+        socket.on("startGame", function (turn) {
+            $.get("/api/board", function (data) {
+                board = JSON.parse(data[0].boardSpots);
+                var boardSpot = [];
+                console.log(board);
+
+                $(".validMove").removeClass("validMove");
+                $(".hasPlayer").removeClass("hasPlayer");
+                $(".hasItem").removeClass("hasItem");
+                for (var i = 0; i < board.spots.length; i++) {
+                    if (board.spots[i].hasItem) {
+                        $("#" + i).addClass("hasItem");
+                    }
+                    if (board.spots[i].hasPlayer) {
+                        $("#" + i).addClass("hasPlayer");
+
+                        if (board.spots[i].playerId === turn) {
+                            boardSpot = board.spots[i].validMoves;
+                        }
+                    }
+                }
+                $("#end-turn").hide();
+                $(".player-turn").text(turn);
+                changeTurn(turn, boardSpot);
+            });
+        });
+
+        function changeTurn(turn, boardSpot) {
+            console.log(
+                "Current turn: " + turn + ", Your player num: " + playerNum
+            );
+            if (turn === playerNum) {
+                for (var i = 0; i < boardSpot.length; i++) {
+                    if (!$("#" + boardSpot[i]).hasClass("hasPlayer")) {
+                        $("#" + boardSpot[i]).addClass("validMove");
+                    }
+                }
+                $("#end-turn").show();
+                console.log("your turn");
+            }
+        }
+
+        $(document).on("click", ".validMove", function () {
+            var newLocation = parseInt($(this).attr("id"));
+            var newBoardState = { newPosition: newLocation, playerId: playerNum };
+            $.ajax("/api/board", {
+                type: "PUT",
+                data: newBoardState,
+                success: function (data) {
+                    console.log(data);
+                    socket.emit("playerMove", playerNum);
+                }
+            });
+        });
+
+        socket.on("startTurn", function (turn) {
+            $.get("/api/board", function (data) {
+                board = JSON.parse(data[0].boardSpots);
+                var boardSpot = [];
+                console.log(board);
+
+                $(".validMove").removeClass("validMove");
+                $(".hasPlayer").removeClass("hasPlayer");
+                $(".hasItem").removeClass("hasItem");
+                for (var i = 0; i < board.spots.length; i++) {
+                    if (board.spots[i].hasItem) {
+                        $("#" + i).addClass("hasItem");
+                    }
+                    if (board.spots[i].hasPlayer) {
+                        $("#" + i).addClass("hasPlayer");
+
+                        if (board.spots[i].playerId === turn) {
+                            boardSpot = board.spots[i].validMoves;
+                        }
+                    }
+                }
+                $("#end-turn").hide();
+                $(".player-turn").text(turn);
+                changeTurn(turn, boardSpot);
+            });
+        });
+
+        $("#end-turn").click(function () {
+            socket.emit("endTurn", playerNum);
+        });
+    });
+</script>
