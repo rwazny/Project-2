@@ -58,7 +58,7 @@
             playerNum = data.length;
             $(".player-num").text(playerNum);
             console.log(data.length);
-            if (data.length === 2) {
+            if (data.length === 4) {
                 console.log("start 0");
                 socket.emit("startGame", true);
             }

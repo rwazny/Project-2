@@ -88,10 +88,16 @@ module.exports = function(app) {
     });
   });
 
-  // Create a new example
   app.post("/api/players", function(req, res) {
     db.Player.create(req.body).then(function(dbExample) {
       res.render("gameboard");
+    });
+  });
+
+  app.delete("/api/players", function(req, res) {
+    db.Player.destroy({ where: {}, truncate: true }).then(function(data) {
+      res.json(data);
+      db.Board.destroy({ where: {}, truncate: true });
     });
   });
 };
