@@ -1,4 +1,5 @@
 var db = require("./../models");
+// const rollADie = require("./../roll-a-die");
 
 var Game = {
   addPlayer: function(io, playerName) {
@@ -43,10 +44,10 @@ var Game = {
         },
         {
           // 4
-          hasPlayer: false,
+          hasPlayer: true,
           hasItem: false,
           validMoves: [3, 9],
-          playerId: 0
+          playerId: 2
         },
         {
           // 5
@@ -155,10 +156,10 @@ var Game = {
         },
         {
           // 20
-          hasPlayer: false,
+          hasPlayer: true,
           hasItem: false,
           validMoves: [15, 21],
-          playerId: 0
+          playerId: 3
         },
         {
           // 21
@@ -186,7 +187,7 @@ var Game = {
           hasPlayer: true,
           hasItem: false,
           validMoves: [19, 23],
-          playerId: 2
+          playerId: 4
         }
       ]
     };
@@ -207,12 +208,15 @@ var Game = {
   },
 
   newTurnOrder: function() {
-    var order = Math.floor(Math.random() * 2);
-    if (order === 0) {
-      return "12";
-    } else {
-      return "21";
+    var playerOrder = "";
+    for (var i = 0; playerOrder.length < 4; i++) {
+      var num = Math.floor(Math.random() * 4) + 1;
+      if (!playerOrder.includes(num)) {
+        playerOrder += num;
+      }
     }
+
+    return playerOrder;
   },
 
   playerMove: function(io, playerId) {
@@ -225,12 +229,14 @@ var Game = {
 
   endTurn: function(io, turn) {
     db.Board.findAll({}).then(function(results) {
+      var index = results[0].turnOrder.indexOf(results[0].currentTurn);
+      var newTurn;
+
       if (results[0].currentTurn == turn) {
-        var newTurn;
-        if (results[0].currentTurn === 1) {
-          newTurn = 2;
+        if (results[0].turnOrder[index + 1]) {
+          newTurn = parseInt(results[0].turnOrder[index + 1]);
         } else {
-          newTurn = 1;
+          newTurn = parseInt(results[0].turnOrder[0]);
         }
 
         db.Board.update({ currentTurn: newTurn }, { where: { id: 1 } }).then(
