@@ -24,7 +24,40 @@
                 <input class="btn" type="submit" value="Sign Up" />
             </form>
         </div>
+        <div class="mt-5">
+            <h2>Debug Options</h2>
+            <button id="delete-player">Delete Players</button>
+            <button id="add-player">Create Game</button>
+        </div>
     </div>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+        $(function () {
+            $("#delete-player").click(function () {
+                $.ajax("/api/players", {
+                    type: "DELETE",
+                    success: function (data) {
+                        console.log(data);
+                    }
+                })
+            });
+
+            $("#add-player").click(function () {
+                var newPlayer = {
+                    name: "test",
+                    playerId: "test text",
+                    position: 0
+                };
+
+                $.ajax("/api/players", { type: "POST", data: newPlayer }).then(
+                    function () {
+                        window.open(window.location.origin += "/gameboard", '_blank');
+                    }
+                );
+            });
+
+        });
+    </script>
 </body>
 
 </html>
