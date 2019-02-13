@@ -1,3 +1,30 @@
 .list-group-item {
   line-height: 2.5;
 }
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font: 13px Helvetica, Arial;
+}
+td {
+  width: 180px;
+  height: 120px;
+  border: 1px solid grey;
+}
+.hasItem {
+  background-color: aqua;
+}
+.hasPlayer {
+  background-color: chartreuse;
+}
+.validMove {
+  background-color: rgb(193, 236, 149);
+}
+.validMove:hover {
+  background-color: rgb(169, 233, 105);
+  cursor: pointer;
+}

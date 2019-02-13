@@ -1,11 +1,10 @@
 var db = require("../models");
-var authController = require('../controllers/authcontroller.js');
+var authController = require("../controllers/authcontroller.js");
 
-
-module.exports = function (app) {
+module.exports = function(app) {
   // Load index page
-  app.get("/", function (req, res) {
-    db.Example.findAll({}).then(function (dbExamples) {
+  app.get("/", function(req, res) {
+    db.Example.findAll({}).then(function(dbExamples) {
       res.render("index", {
         msg: "Welcome!",
         examples: dbExamples
@@ -13,14 +12,20 @@ module.exports = function (app) {
     });
   });
 
-  app.get("/example/:id", function (req, res) {
+  app.get("/gameboard", function(req, res) {
+    res.render("gameboard");
+  });
+
+  app.get("/home", function(req, res) {
+    res.render("home");
+  });
+
+  app.get("/example/:id", function(req, res) {
     db.Example.findOne({
       where: {
         id: req.params.id
       }
-    }).then(function (
-      dbExample
-    ) {
+    }).then(function(dbExample) {
       res.render("example", {
         example: dbExample
       });
@@ -28,8 +33,7 @@ module.exports = function (app) {
   });
 
   // Render 404 page for any unmatched routes
-  app.get("*", function (req, res) {
+  app.get("*", function(req, res) {
     res.render("404");
   });
-
 };
