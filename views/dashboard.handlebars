@@ -1,15 +1,35 @@
-<!DOCTYPE html>
-<html>
+<div class="container">
+    <img src="/images/working/Placeholder.jpg">
 
-<head>
-    <title>Passport with Sequelize</title>
-</head>
+    <input id="join-game" class="btn" href="/game" type="submit" value="Join Game" />
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+    $(function () {
+        var socket = io();
 
-<body>
-    <li class="tab"><a href="/logout">Logout</a></li>
-    <h2>Dashboard</h2>
-    <h5>Hurray! you are logged in.</h5>
+        $("#join-game").click(function () {
+            $.get("/api/players", function (data) {
+                playerNum = data.length;
+                var newPlayerPosition = 0;
+                switch (playerNum) {
+                    case 1:
+                        newPlayerPosition = 24;
+                        break;
+                }
+                var newPlayer = {
+                    name: "test",
+                    playerId: "test text",
+                    position: newPlayerPosition
+                };
 
-</body>
-
-</html>
+                $.ajax("/api/players", { type: "POST", data: newPlayer }).then(
+                    function () {
+                        window.location = window.location.origin += "/gameboard";
+                    }
+                );
+            });
+        });
+    });
+</script>
