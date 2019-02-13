@@ -2,28 +2,71 @@
   line-height: 2.5;
 }
 
+/*General*/
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
-  font: 13px Helvetica, Arial;
+  font-family: 'Montserrat', sans-serif;
+  background: #DFDCE3;
+  color: #1d1e22;
 }
+
+a {
+  text-decoration: underline;
+  color: #4ABDAC;
+  font-family: 'Oswald', sans-serif;
+  font-size: 60px
+}
+
+a:hover {
+  color: #393f4d
+}
+
+.btn {
+  background: #FC4A1A
+}
+
+.btn:hover {
+  background: rgb(255, 100, 57)
+}
+
+/*Form*/
+
+ul.tab-group {
+  display: flex;
+  justify-content: space-around;
+  border: 3px solid #F7B733
+}
+
+ul {
+  list-style-type: none;
+}
+
+
+
+/*Board*/
 td {
   width: 180px;
   height: 120px;
   border: 1px solid grey;
 }
+
 .hasItem {
   background-color: aqua;
 }
+
 .hasPlayer {
   background-color: chartreuse;
 }
+
 .validMove {
   background-color: rgb(193, 236, 149);
 }
+
 .validMove:hover {
   background-color: rgb(169, 233, 105);
   cursor: pointer;

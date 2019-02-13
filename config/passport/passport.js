@@ -143,7 +143,7 @@ module.exports = function (passport, user) {
 
                     return done(null, false, {
                         message: 'Email does not exist'
-                    });
+                    })
 
                 }
 

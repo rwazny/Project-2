@@ -11,7 +11,12 @@ module.exports = function (app, passport) {
         }
 
     ));
+    //User cannot access these pages unless logged in
     app.get('/dashboard', isLoggedIn, authController.dashboard);
+    app.get("/gameboard", isLoggedIn, function (req, res) {
+        res.render("gameboard");
+    });
+
     app.get('/logout', authController.logout);
 
     app.post('/signin', passport.authenticate('local-signin', {
