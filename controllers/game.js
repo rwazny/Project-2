@@ -9,7 +9,7 @@ var Game = {
     // db.Player.create
   },
 
-  start: function(io, start) {
+  start: function(io, data) {
     console.log("start 2");
     var newOrder = this.newTurnOrder();
     var newBoardSpots = {
@@ -53,28 +53,28 @@ var Game = {
           // 5
           hasPlayer: false,
           hasItem: true,
-          validMoves: [0, 6, 10],
+          validMoves: [0, 10],
           playerId: 0
         },
         {
           // 6
           hasPlayer: false,
           hasItem: false,
-          validMoves: [1, 5, 7, 11],
+          validMoves: [1, 11],
           playerId: 0
         },
         {
           // 7
           hasPlayer: false,
           hasItem: false,
-          validMoves: [2, 6, 8, 12],
+          validMoves: [2, 12],
           playerId: 0
         },
         {
           // 8
           hasPlayer: false,
           hasItem: false,
-          validMoves: [3, 7, 9, 13],
+          validMoves: [3, 9, 13],
           playerId: 0
         },
         {
@@ -88,28 +88,28 @@ var Game = {
           // 10
           hasPlayer: false,
           hasItem: false,
-          validMoves: [5, 11, 15],
+          validMoves: [5, 15],
           playerId: 0
         },
         {
           // 11
           hasPlayer: false,
           hasItem: false,
-          validMoves: [6, 10, 12, 16],
+          validMoves: [6, 16],
           playerId: 0
         },
         {
           // 12
           hasPlayer: false,
           hasItem: false,
-          validMoves: [7, 11, 13, 17],
+          validMoves: [7, 17],
           playerId: 0
         },
         {
           // 13
           hasPlayer: false,
           hasItem: true,
-          validMoves: [8, 12, 14, 18],
+          validMoves: [8, 14, 18],
           playerId: 0
         },
         {
@@ -123,28 +123,28 @@ var Game = {
           // 15
           hasPlayer: false,
           hasItem: false,
-          validMoves: [10, 16, 20],
+          validMoves: [10, 20],
           playerId: 0
         },
         {
           // 16
           hasPlayer: false,
           hasItem: false,
-          validMoves: [11, 15, 17, 21],
+          validMoves: [11, 21],
           playerId: 0
         },
         {
           // 17
           hasPlayer: false,
           hasItem: false,
-          validMoves: [12, 16, 18, 22],
+          validMoves: [12, 22],
           playerId: 0
         },
         {
           // 18
           hasPlayer: false,
           hasItem: false,
-          validMoves: [13, 17, 19, 23],
+          validMoves: [13, 19, 23],
           playerId: 0
         },
         {
@@ -197,8 +197,9 @@ var Game = {
       currentTurn: parseInt(newOrder[0]),
       boardSpots: newBoardSpots
     };
+    data.push(newOrder);
     db.Board.create(newBoard).then(function() {
-      io.emit("startGame", newBoard.currentTurn);
+      io.emit("startGame", data);
     });
   },
 
