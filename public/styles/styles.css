@@ -65,10 +65,16 @@ td {
   /* background-color: chartreuse; */
 }
 .player-card {
-  margin: 5px;
   border-radius: 4px;
   padding: 5px;
   margin-top: 15px;
+}
+.player-card-top {
+  height: 192px;
+  padding: 8px;
+  background-color: lightslategrey;
+  border-radius: 4px;
+  margin-top: 8px;
 }
 .turn-active-card {
   box-shadow: 6px 6px 0px gold, -6px -6px 0px gold, -6px 6px 0px gold,
