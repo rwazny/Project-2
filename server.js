@@ -75,9 +75,9 @@ io.on("connection", function(socket) {
     Game.addPlayer(io, name);
   });
 
-  socket.on("startGame", function(start) {
+  socket.on("startGame", function(data) {
     console.log("start 1");
-    Game.start(io, start);
+    Game.start(io, data);
   });
 
   socket.on("endTurn", function(turn) {

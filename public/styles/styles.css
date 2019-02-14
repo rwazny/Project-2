@@ -10,28 +10,28 @@
 }
 
 body {
-  font-family: 'Montserrat', sans-serif;
-  background: #DFDCE3;
+  font-family: "Montserrat", sans-serif;
+  background: #dfdce3;
   color: #1d1e22;
 }
 
 a {
   text-decoration: underline;
-  color: #4ABDAC;
-  font-family: 'Oswald', sans-serif;
-  font-size: 60px
+  color: #4abdac;
+  font-family: "Oswald", sans-serif;
+  font-size: 60px;
 }
 
 a:hover {
-  color: #393f4d
+  color: #393f4d;
 }
 
 .btn {
-  background: #FC4A1A
+  background: #fc4a1a;
 }
 
 .btn:hover {
-  background: rgb(255, 100, 57)
+  background: rgb(255, 100, 57);
 }
 
 /*Form*/
@@ -39,16 +39,18 @@ a:hover {
 ul.tab-group {
   display: flex;
   justify-content: space-around;
-  border: 3px solid #F7B733
+  border: 3px solid #f7b733;
 }
 
 ul {
   list-style-type: none;
 }
 
-
-
 /*Board*/
+table {
+  background-image: url(../images/Game_Board.png);
+  background-size: contain;
+}
 td {
   width: 180px;
   height: 120px;
@@ -56,11 +58,70 @@ td {
 }
 
 .hasItem {
-  background-color: aqua;
+  background-color: rgba(255, 217, 0, 0.301);
 }
 
 .hasPlayer {
+  /* background-color: chartreuse; */
+}
+.player-card {
+  margin: 5px;
+  border-radius: 4px;
+  padding: 5px;
+  margin-top: 15px;
+}
+.turn-active-card {
+  box-shadow: 6px 6px 0px gold, -6px -6px 0px gold, -6px 6px 0px gold,
+    6px -6px 0px gold;
+}
+
+.player1card {
+  background-color: #a988f8;
+}
+
+.player2card {
   background-color: chartreuse;
+}
+
+.player3card {
+  background-color: rgb(242, 78, 92);
+}
+
+.player4card {
+  background-color: rgb(111, 229, 225);
+}
+.player1 {
+  background-image: url("../images/ChiliPepper.png");
+  -webkit-filter: drop-shadow(5px 5px 0px #a988f8);
+  filter: drop-shadow(8px 8px 0px #a988f8) drop-shadow(-8px -8px 0px #a988f8)
+    drop-shadow(-8px 8px 0px #a988f8) drop-shadow(8px -8px 0px #a988f8);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.player2 {
+  background-image: url("../images/Crab.png");
+  -webkit-filter: drop-shadow(5px 5px 5px chartreuse);
+  filter: drop-shadow(5px 5px 0px chartreuse);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.player3 {
+  background-image: url("../images/DurianFruit.png");
+  -webkit-filter: drop-shadow(5px 5px 5px rgb(242, 78, 92));
+  filter: drop-shadow(5px 5px 0px rgb(242, 78, 92));
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.player4 {
+  background-image: url("../images/Broccoli.png");
+  -webkit-filter: drop-shadow(5px 5px 5px rgb(111, 229, 225));
+  filter: drop-shadow(5px 5px 0px rgb(111, 229, 225));
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .validMove {
