@@ -54,9 +54,7 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="container-fluid">
-                        <div class="heading">
-                            <h1>Choose a Character:</h1>
-                        </div>
+                        <div class="heading">Choose a Character:</div>
                         <hr>
                         <div class="container">
                             <div class="modal-footer">
@@ -238,6 +236,8 @@
         console.log("MODAL CLICKED");
         event.preventDefault();
 
+
+
         $.get("/api/characters", function (data) {
             characterList = data;
             console.log(characterList)
@@ -279,7 +279,7 @@
                 " ",
                 "src = '/images/",
                 character.character_name,
-                ".png'",
+                ".png",
                 ">",
                 "</span>",
                 "</li>"
