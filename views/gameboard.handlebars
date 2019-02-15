@@ -45,8 +45,87 @@
     <br /><br />
     <button id="end-turn">End Turn</button>
 </div>
+<div>
+
+    <!-- Modal -->
+    <div class="modal fade bd-example-modal-lg" id="playerSelectModelId" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role=" document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="heading">
+                            <h1>Choose a Character:</h1>
+                        </div>
+                        <hr>
+                        <div class="container">
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                            {{!--
+                            <div class="row">
+                                <div class="col-md-3 ml-auto">
+                                    <img class="resize" id="broccoli" src="/images/Broccoli.png" alt="Broccoli">
+                                </div>
+                                <div class="col-md-3 ml-auto">
+                                    <img class="resize" id="chili" src="/images/ChiliPepper.png" alt="Chili Pepper">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 ml-auto">
+                                    <img class="resize" id="crab" src="/images/Crab.png" alt="Crab">
+                                </div>
+                                <div class="col-md-3 ml-auto">
+                                    <img class="resize" id="durian" src="/images/DurianFruit.png" alt="Durian Fruit">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 ml-auto">
+                                    <img class="resize" id="egg" src="/images/Egg.png" alt="Egg">
+                                </div>
+                                <div class="col-md-3 ml-auto">
+                                    <img class="resize" id="passion" src="/images/PassionFruit.png" alt="Passion Fruit">
+                                </div>
+                            </div>
+
+                             <div class="col-md-3 ml-auto ">
+                                <img class="resize" id="pizza" src="/images/Pizza.png" alt="Pizza">
+                            </div>
+                            <div class="col-md-3 ml-auto ">
+                                <img class="resize" id="cookie" src="/images/Cookie.png" alt="Cookie">
+                            </div>
+                            <div class="col-md-3 ml-auto ">
+                                <img class="resize" id="dougnut" src="/images/Dougnut.png" alt="Dougnut">
+                            </div>
+                            <div class="col-md-3 ml-auto ">
+                                <img class="resize" id="pretzel" src="/images/Pretzel.png" alt="Pretzel">
+                            </div>
+                            <div class="col-md-3 ml-auto ">
+                                <img class="resize" id="candy" src="/images/Candy.png" alt="Candy">
+                            </div>
+                            <div class="col-md-3 ml-auto ">
+                                <img class="resize" id="sucker" src="/images/Sucker.png" alt="Sucker">
+                            </div> --}}
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary submit">Select Player</button>
+
+</div>
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+
 <script>
     $(function () {
         var socket = io();
@@ -149,4 +228,67 @@
             socket.emit("endTurn", playerNum);
         });
     });
+
+    //Modal related changes
+
+    var characterList = [];
+    var $characterContainer = $(".container");
+
+    $(".submit").on("click", function (event) {
+        console.log("MODAL CLICKED");
+        event.preventDefault();
+
+        $.get("/api/characters", function (data) {
+            characterList = data;
+            console.log(characterList)
+            initializeRows();
+            $("#playerSelectModelId").modal("show");
+
+        });
+
+
+
+
+    });
+
+    function initializeRows() {
+        $characterContainer.empty();
+        var rowsToAdd = [];
+        for (var i = 0; i < characterList.length; i++) {
+            rowsToAdd.push(createNewRow(characterList[i]));
+        }
+        console.log(rowsToAdd);
+        $characterContainer.prepend(rowsToAdd);
+        console.log($characterContainer);
+    }
+
+    function createNewRow(character) {
+        var $newInputRow = $(
+            [
+                "<li class='list-group-item'>",
+                "<span>",
+                character.character_name,
+                "</span>",
+                "<span>",
+                character.attack,
+                "</span>",
+                "<span>",
+                "<img class='resize' ",
+                "id = ",
+                character.id,
+                " ",
+                "src = '/images/",
+                character.character_name,
+                ".png'",
+                ">",
+                "</span>",
+                "</li>"
+            ].join("")
+        );
+
+        $newInputRow.data("character", character);
+        return $newInputRow;
+    }
+
+
 </script>

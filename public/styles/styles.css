@@ -28,3 +28,21 @@ td {
   background-color: rgb(169, 233, 105);
   cursor: pointer;
 }
+
+.resize {
+  width: 150px;
+  height: 150px;
+}
+
+.modal-body {
+  max-height: 1000px;
+  overflow: auto;
+}
+.modal-dialog {
+  height: 90%; /* = 90% of the .modal-backdrop block = %90 of the screen */
+  overflow: auto;
+}
+.modal-content {
+  height: 100%; /* = 100% of the .modal-dialog block */
+  overflow: auto;
+}

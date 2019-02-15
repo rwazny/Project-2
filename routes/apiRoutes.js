@@ -26,9 +26,10 @@ var db = require("../models");
 // };
 
 module.exports = function(app) {
+  // GET route for getting all of the characters
   app.get("/api/characters", function(req, res) {
     db.Character.findAll({
-      include: [db.Item]
+      //include: [db.Item]
     }).then(function(dbCharacter) {
       res.json(dbCharacter);
     });
@@ -38,8 +39,8 @@ module.exports = function(app) {
     db.Character.findOne({
       where: {
         id: req.params.id
-      },
-      include: [db.Item]
+      }
+      //include: [db.Item]
     }).then(function(dbCharacter) {
       res.json(dbCharacter);
     });
