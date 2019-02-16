@@ -9,8 +9,11 @@ module.exports = function (sequelize, Sequelize) {
         },
 
         username: {
-            type: Sequelize.TEXT,
-            allowNull: false
+            type: Sequelize.STRING(4),
+            allowNull: false,
+            validate: {
+                notContains: ' ',
+            }
         },
 
         about: {
