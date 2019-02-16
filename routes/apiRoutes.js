@@ -47,7 +47,7 @@ module.exports = function(app) {
 
   app.put("/api/characters", function(req, res) {
     db.Character.update(
-      { activeFlag: req.body.activeFlag },
+      { activeFlag: req.body.activeFlag, charSelected: req.body.charSelected },
       {
         where: {
           id: req.body.id
