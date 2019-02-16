@@ -45,6 +45,19 @@ module.exports = function(app) {
     });
   });
 
+  app.put("/api/characters", function(req, res) {
+    db.Character.update(
+      { activeFlag: req.body.activeFlag },
+      {
+        where: {
+          id: req.body.id
+        }
+      }
+    ).then(function(results) {
+      res.json(results);
+    });
+  });
+
   app.get("/api/players", function(req, res) {
     db.Player.findAll({}).then(function(dbExamples) {
       res.json(dbExamples);
