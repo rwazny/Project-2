@@ -75,6 +75,18 @@ io.on("connection", function(socket) {
     Game.addPlayer(io, name);
   });
 
+  socket.on("startCharSelect", function() {
+    Game.characterSelect(io);
+  });
+
+  socket.on("clickCharacter", function() {
+    Game.clickCharacter(io);
+  });
+
+  socket.on("selectCharacter", function(turn) {
+    Game.selectCharacter(io, turn);
+  });
+
   socket.on("startGame", function(data) {
     console.log("start 1");
     Game.start(io, data);

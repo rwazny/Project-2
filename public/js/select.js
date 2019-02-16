@@ -2,10 +2,11 @@
 var characterList = [];
 var $characterContainer = $("#container-character");
 $(document).ready(function() {
-  $(".submit").on("click", function(event) {
-    console.log("MODAL CLICKED");
-    event.preventDefault();
-    // refresh character list based on latest attributes from the database table
+  var socket = io();
+
+  socket.on("startCharSelect", function(turn) {
+    $("#character-turn").text(turn);
+    console.log("character select triggered");
     refreshCharacters();
   });
 });
@@ -55,8 +56,7 @@ function createNewCharCard(character) {
 
   //if currently active/selected, disable it
   if (character.activeFlag === "Y") {
-    charImg.css("border", "16px solid lightgray");
-    charImg.css("filter", "grayscale(100%)");
+    charImg.addClass("char-selected");
   }
 
   var figName2 = $("<figure>");
