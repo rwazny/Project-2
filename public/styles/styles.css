@@ -61,9 +61,6 @@ td {
   background-color: rgba(255, 217, 0, 0.301);
 }
 
-.hasPlayer {
-  /* background-color: chartreuse; */
-}
 .player-card {
   border-radius: 4px;
   padding: 5px;
@@ -137,4 +134,17 @@ td {
 .validMove:hover {
   background-color: rgb(169, 233, 105);
   cursor: pointer;
+}
+
+.resize {
+  width: 150px;
+  height: 150px;
+}
+
+.well-custom {
+  width: 200px;
+  display: inline-block;
+}
+.player-card {
+  padding: 23px;
 }
