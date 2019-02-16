@@ -3,7 +3,8 @@ module.exports = function(sequelize, DataTypes) {
     character_name: DataTypes.STRING,
     hp: DataTypes.INTEGER,
     attack: DataTypes.INTEGER,
-    activeFlag: DataTypes.STRING
+    activeFlag: DataTypes.STRING,
+    charSelected: DataTypes.BOOLEAN
   });
   Character.associate = function(models) {
     Character.belongsTo(models.Item, {
