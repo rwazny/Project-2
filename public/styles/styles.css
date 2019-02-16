@@ -50,11 +50,13 @@ ul {
 table {
   background-image: url(../images/Game_Board.png);
   background-size: contain;
+  background-repeat: round;
 }
 td {
   width: 180px;
   height: 120px;
-  border: 1px solid grey;
+  text-align: center;
+  color: darkgrey;
 }
 
 .hasItem {
