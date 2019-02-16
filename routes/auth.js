@@ -11,8 +11,8 @@ module.exports = function (app, passport) {
 
   ));
   // //User cannot access these pages unless logged in
-  app.get('/dashboard', isLoggedIn, authController.dashboard);
-  app.get("/gameboard", isLoggedIn, function (req, res) {
+  app.get('/dashboard/:username?', isLoggedIn, authController.dashboard);
+  app.get("/gameboard/:username?", isLoggedIn, function (req, res) {
     res.render("gameboard");
   });
 
@@ -21,11 +21,12 @@ module.exports = function (app, passport) {
   app.post(
     "/signin",
     passport.authenticate("local-signin", {
-      successRedirect: "/dashboard",
-
       failureRedirect: "/signin"
-    })
-  );
+    }),
+    function (req, res) {
+      console.log(res)
+      res.redirect('/dashboard/' + req.user.username)
+    });
 
   function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) return next();

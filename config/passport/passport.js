@@ -108,8 +108,6 @@ module.exports = function (passport, user) {
 
         {
 
-            // by default, local strategy uses username and password, we will override with username
-
             usernameField: 'username',
 
             passwordField: 'password',
@@ -153,6 +151,7 @@ module.exports = function (passport, user) {
 
 
                 var userinfo = user.get();
+                console.log(userinfo)
                 return done(null, userinfo);
 
 
