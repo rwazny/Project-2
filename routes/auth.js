@@ -1,20 +1,20 @@
 var authController = require("../controllers/authcontroller.js");
 
-module.exports = function(app, passport) {
+module.exports = function (app, passport) {
   app.get("/signup", authController.signup);
   app.get("/signin", authController.signin);
-  // app.post('/signup', passport.authenticate('local-signup', {
-  //         successRedirect: '/dashboard',
+  app.post('/signup', passport.authenticate('local-signup', {
+      successRedirect: '/dashboard',
 
-  //         failureRedirect: '/signup'
-  //     }
+      failureRedirect: '/signup'
+    }
 
-  // ));
+  ));
   // //User cannot access these pages unless logged in
-  // app.get('/dashboard', isLoggedIn, authController.dashboard);
-  // app.get("/gameboard", isLoggedIn, function (req, res) {
-  //     res.render("gameboard");
-  // });
+  app.get('/dashboard', isLoggedIn, authController.dashboard);
+  app.get("/gameboard", isLoggedIn, function (req, res) {
+    res.render("gameboard");
+  });
 
   app.get("/logout", authController.logout);
 
