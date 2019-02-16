@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "root",
-    "password": "Mushsoak1!",
-    "database": "root",
+    "password": "root",
+    "database": "foodfight_db",
     "host": "localhost",
     "port": 3306,
     "dialect": "mysql"
