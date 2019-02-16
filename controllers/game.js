@@ -199,6 +199,7 @@ var Game = {
     };
     data.push(newOrder);
     db.Board.create(newBoard).then(function() {
+      Game.startTurnTimer(io, parseInt(newOrder[0]), 20);
       io.emit("startGame", data);
     });
   },
@@ -243,12 +244,28 @@ var Game = {
         db.Board.update({ currentTurn: newTurn }, { where: { id: 1 } }).then(
           function(data) {
             console.log(data);
+            Game.startTurnTimer(io, newTurn, 20);
             io.emit("startTurn", newTurn);
           }
         );
       }
     });
-  }
+  },
+
+  startTurnTimer: function(io, turn, timerCount) {
+    setTimeout(() => {
+      timerCount--;
+      io.emit("changeTimer", timerCount);
+      if (timerCount <= 0) {
+        timerCount = 0;
+        Game.endTurn(io, turn);
+      } else {
+        this.startTurnTimer(io, turn, timerCount);
+      }
+    }, 1000);
+  },
+
+  updateTurnTimer: function(io, turn, timerCount) {}
 };
 
 module.exports = Game;
