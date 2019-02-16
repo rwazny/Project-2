@@ -1,1 +1,0 @@
-Create database foodfight_db;

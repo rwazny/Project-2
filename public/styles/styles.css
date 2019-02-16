@@ -52,16 +52,19 @@ table {
   background-size: contain;
   background-repeat: round;
 }
+
 td {
   width: 180px;
   height: 120px;
   text-align: center;
   color: darkgrey;
 }
+
 .char-selected {
   border: 16px solid lightgray;
   filter: grayscale(100%);
 }
+
 .hasItem {
   background-color: rgba(255, 217, 0, 0.301);
 }
@@ -71,6 +74,7 @@ td {
   padding: 5px;
   margin-top: 15px;
 }
+
 .player-card-top {
   height: 192px;
   padding: 8px;
@@ -78,6 +82,7 @@ td {
   border-radius: 4px;
   margin-top: 8px;
 }
+
 .turn-active-card {
   box-shadow: 6px 6px 0px gold, -6px -6px 0px gold, -6px 6px 0px gold,
     6px -6px 0px gold;
@@ -98,15 +103,16 @@ td {
 .player4card {
   background-color: rgb(111, 229, 225);
 }
+
 .player1 {
   background-image: url("../images/ChiliPepper.png");
   -webkit-filter: drop-shadow(5px 5px 0px #a988f8);
-  filter: drop-shadow(8px 8px 0px #a988f8) drop-shadow(-8px -8px 0px #a988f8)
-    drop-shadow(-8px 8px 0px #a988f8) drop-shadow(8px -8px 0px #a988f8);
+  filter: drop-shadow(8px 8px 0px #a988f8) drop-shadow(-8px -8px 0px #a988f8) drop-shadow(-8px 8px 0px #a988f8) drop-shadow(8px -8px 0px #a988f8);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
 }
+
 .player2 {
   background-image: url("../images/Crab.png");
   -webkit-filter: drop-shadow(5px 5px 5px chartreuse);
@@ -115,6 +121,7 @@ td {
   background-repeat: no-repeat;
   background-position: center;
 }
+
 .player3 {
   background-image: url("../images/DurianFruit.png");
   -webkit-filter: drop-shadow(5px 5px 5px rgb(242, 78, 92));
@@ -123,6 +130,7 @@ td {
   background-repeat: no-repeat;
   background-position: center;
 }
+
 .player4 {
   background-image: url("../images/Broccoli.png");
   -webkit-filter: drop-shadow(5px 5px 5px rgb(111, 229, 225));
@@ -150,6 +158,25 @@ td {
   width: 200px;
   display: inline-block;
 }
+
 .player-card {
   padding: 23px;
 }
+
+/*Dashboard*/
+.welcome {
+  text-align: center;
+  font-family: "Oswald", sans-serif;
+  font-size: 75px;
+
+}
+
+#title {
+  text-align: center;
+  text-decoration: underline;
+  font-family: "Oswald", sans-serif;
+  font-size: 40px;
+  color: #F7B733
+}
+
+/* #content {} */

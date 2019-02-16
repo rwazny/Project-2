@@ -33,7 +33,7 @@ module.exports = function (passport, user) {
     //declares what request (req) fields our usernameField and passwordField (passport variables) are
     passport.use('local-signup', new LocalStrategy({
 
-            usernameField: 'email',
+            usernameField: 'username',
 
             passwordField: 'password',
 
@@ -41,7 +41,7 @@ module.exports = function (passport, user) {
 
         },
 
-        function (req, email, password, done) {
+        function (req, username, password, done) {
 
             var generateHash = function (password) {
 
@@ -50,10 +50,10 @@ module.exports = function (passport, user) {
             };
 
 
-            //Check to see if user email already exists. If they do not, then add them
+            //Check to see if username already exists. If they do not, then add them
             User.findOne({
                 where: {
-                    email: email
+                    username: username
                 }
             }).then(function (user) {
 
@@ -62,7 +62,7 @@ module.exports = function (passport, user) {
                 {
 
                     return done(null, false, {
-                        message: 'That email is already taken'
+                        message: 'That username is already taken'
                     });
 
                 } else
@@ -74,13 +74,9 @@ module.exports = function (passport, user) {
                     var data =
 
                         {
-                            email: email,
+                            username: username,
 
                             password: userPassword,
-
-                            firstname: req.body.firstname,
-
-                            lastname: req.body.lastname
 
                         };
 
@@ -112,9 +108,7 @@ module.exports = function (passport, user) {
 
         {
 
-            // by default, local strategy uses username and password, we will override with email
-
-            usernameField: 'email',
+            usernameField: 'username',
 
             passwordField: 'password',
 
@@ -123,7 +117,7 @@ module.exports = function (passport, user) {
         },
 
 
-        function (req, email, password, done) {
+        function (req, username, password, done) {
 
             var User = user;
 
@@ -135,14 +129,14 @@ module.exports = function (passport, user) {
 
             User.findOne({
                 where: {
-                    email: email
+                    username: username
                 }
             }).then(function (user) {
 
                 if (!user) {
 
                     return done(null, false, {
-                        message: 'Email does not exist'
+                        message: 'Username does not exist'
                     })
 
                 }
@@ -157,6 +151,7 @@ module.exports = function (passport, user) {
 
 
                 var userinfo = user.get();
+                console.log(userinfo)
                 return done(null, userinfo);
 
 
