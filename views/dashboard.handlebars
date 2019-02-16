@@ -1,13 +1,42 @@
 <div class="container">
-    <img src="/images/working/Placeholder.jpg">
+    <div class="welcome"></div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div id="title"> Information:</div>
 
-    <input id="join-game" class="btn" href="/game" type="submit" value="Join Game" />
+            <div id="content">
+                Food Fight is a multiplayer based game built by four junior developers. The game you are about to play
+                went from concept to finished product in two weeks.
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div id="title">
+                Rules:
+            </div>
+            <div id="content">
+                <ul>
+                    <li> random text is here</li>
+                    <li> here is more random text</li>
+                    <li> this rule is unfare, and makes the game not fun, I liked version 4.20 better!</li>
+                    <li> nerf crab 2019</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col text-center">
+        <input id="join-game" class="btn" href="/game" type="submit" value="Join Game" />
+    </div>
+
 </div>
+
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
 
     $(function () {
+        $(".welcome").text("Welcome to Food Fight " + window.location.pathname.split("/")[2] + "!")
+
+
         var socket = io();
 
         $("#join-game").click(function () {
@@ -32,6 +61,7 @@
                     }
                 );
             });
+
         });
     });
 </script>
