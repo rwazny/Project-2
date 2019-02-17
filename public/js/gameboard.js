@@ -54,36 +54,36 @@ $(document).ready(function () {
       $(".hasPlayer").removeClass("hasPlayer");
       $(".hasItem").removeClass("hasItem");
 
-      for (var i = 0; i < board.spots.length; i++) {
-        if (board.spots[i].hasItem) {
-          $("#" + i).addClass("hasItem");
-        }
-        if (board.spots[i].hasPlayer) {
-          $("#" + i).addClass("hasPlayer");
-          switch (board.spots[i].playerId) {
-            case 1:
-              $("#" + i).addClass("player1");
-              break;
-            case 2:
-              $("#" + i).addClass("player2");
-              break;
-            case 3:
-              $("#" + i).addClass("player3");
-              break;
-            case 4:
-              $("#" + i).addClass("player4");
-              break;
-          }
+       for (var i = 0; i < board.spots.length; i++) {
+         if (board.spots[i].hasItem) {
+           $("#" + i).addClass("hasItem");
+         }
+         if (board.spots[i].hasPlayer) {
+           $("#" + i).addClass("hasPlayer");
+           switch (board.spots[i].playerId) {
+             case 1:
+               $("#" + i).addClass("player1");
+               break;
+             case 2:
+               $("#" + i).addClass("player2");
+               break;
+             case 3:
+               $("#" + i).addClass("player3");
+               break;
+             case 4:
+               $("#" + i).addClass("player4");
+               break;
+           }
 
-          console.log(
-            board.spots[i].playerId + ", " + parseInt(playerData[4][0])
-          );
+           console.log(
+             board.spots[i].playerId + ", " + parseInt(playerData[4][0])
+           );
 
-          if (board.spots[i].playerId === parseInt(playerData[4][0])) {
-            boardSpot = board.spots[i].validMoves;
-          }
-        }
-      }
+           if (board.spots[i].playerId === parseInt(playerData[4][0])) {
+             boardSpot = board.spots[i].validMoves;
+           }
+         }
+       }
       $("#end-turn").hide();
       $(".player-turn").text(playerData[4][0]);
       changeTurn(parseInt(playerData[4][0]), boardSpot);
@@ -252,6 +252,7 @@ $(document).ready(function () {
       var idarr = idstr.split("-");
       var imgFlag = $(this).attr("activeFlag");
       var flagToset = "";
+      var charSelectedVar = false;
 
       // setting activeFlag based on current flag
       if (imgFlag === "Y") {
@@ -259,9 +260,16 @@ $(document).ready(function () {
       } else {
         flagToset = "Y";
       }
+
+      if(flagToset === "Y"){
+        charSelectedVar = true;
+      }
+      else{
+        charSelectedVar = false;
+      }
       var character = {
         activeFlag: flagToset,
-        charSelected: false,
+        charSelected: charSelectedVar,
         id: idarr[1]
       };
       //updating active flag to database, character table

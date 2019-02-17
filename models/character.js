@@ -4,7 +4,8 @@ module.exports = function(sequelize, DataTypes) {
     hp: DataTypes.INTEGER,
     attack: DataTypes.INTEGER,
     activeFlag: DataTypes.STRING,
-    charSelected: DataTypes.BOOLEAN
+    charSelected: DataTypes.BOOLEAN,
+    imgLoc: DataTypes.STRING
   });
   Character.associate = function(models) {
     Character.belongsTo(models.Item, {
