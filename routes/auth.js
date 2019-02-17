@@ -13,9 +13,7 @@ module.exports = function (app, passport) {
 
   // //User cannot access these pages unless logged in
   app.get('/dashboard/:username?', isLoggedIn, authController.dashboard);
-  app.get("/gameboard/:username?", isLoggedIn, function (req, res) {
-    res.render("gameboard");
-  });
+  app.get("/gameboard/:username?", isLoggedIn, authController.findUser);
 
   app.get("/logout", authController.logout);
 
