@@ -1,32 +1,78 @@
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+</head>
 <div class="container">
-    <div class="welcome"></div>
-    <div class="row">
-        <div class="col-sm-6">
-            <div id="title"> Information:</div>
-
-            <div id="content">
-                Food Fight is a multiplayer based game built by four junior developers. The game you are about to play
-                went from concept to finished product in two weeks.
+    <div class="land">
+        <div class="animated fadeIn slower">
+            <div class="welcome">
+            </div>
+            <hr>
+            <div class="greet">If you're ready for a game, feel free to hit the "Join Game" button below. If you would
+                like
+                to review the rules for the game, the rule list is available by clicking on the "Game Rules" button. All
+                other additional information about Food Fight can be found by clicking the "More Information" button.
+                Enjoy!
             </div>
         </div>
-        <div class="col-sm-6">
+    </div>
+    <!--Begin More Information Section-->
+    <div class="afterAbout">
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="title"> Information:</div>
+
+                <div id="content">
+                    Food Fight is a multiplayer based game built by four junior developers. The game you are about to
+                    play went from concept to finished product in two weeks.
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Begin Rules Section-->
+    <div class="afterRules">
+        <div class="col-sm-12">
             <div id="title">
                 Rules:
             </div>
-            <div id="content">
-                <ul>
-                    <li> random text is here</li>
-                    <li> here is more random text</li>
-                    <li> this rule is unfare, and makes the game not fun, I liked version 4.20 better!</li>
-                    <li> nerf crab 2019</li>
-                </ul>
+            <div id="list2">
+                <ol>
+                    <li>
+                        <p><em>The Netherlands</em> is a country in ...</p>
+                    </li>
+                    <li>
+                        <p><em>The United States of America</em> is a federal constitutional ...</p>
+                    </li>
+                    <li>
+                        <p><em>The Philippines</em> officially known as the Republic ...</p>
+                    </li>
+                    <li>
+                        <p><em>The United Kingdom</em> of Great Britain and ...</p>
+                    </li>
+                </ol>
             </div>
         </div>
     </div>
-    <div class="col text-center">
-        <input id="join-game" class="btn" href="/game" type="submit" value="Join Game" />
+    <div class="viewbtn">
+        <div class="animated fadeIn slower">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="col text-center">
+                        <input id="game-rules" class="btn" type="submit" value="Game Rules" />
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="col text-center">
+                        <input id="join-game" class="btn" href="/game" type="submit" value="Join Game" />
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="col text-center">
+                        <input id="more-info" class="btn" type="submit" value="More Information" />
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
@@ -34,9 +80,20 @@
 <script>
 
     $(function () {
-        $(".welcome").text("Welcome to Food Fight " + window.location.pathname.split("/")[2] + "!")
-
-
+        //display Username
+        $(".welcome").text("Welcome to Food Fight, " + window.location.pathname.split("/")[2] + "!")
+        //Display more information about the game
+        $("#more-info").click(function () {
+            $('.afterAbout').css('display', 'block')
+            $(".viewbtn").css('display', 'none')
+            $(".land").css('display', 'none')
+        })
+        //Display Game rules
+        $("#game-rules").click(function () {
+            $('.afterRules').css('display', 'block')
+            $(".viewbtn").css('display', 'none')
+            $(".land").css('display', 'none')
+        })
         var socket = io();
 
         $("#join-game").click(function () {

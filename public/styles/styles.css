@@ -3,6 +3,17 @@
 }
 
 /*General*/
+hr {
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.75),
+    rgba(0, 0, 0, 0)
+  );
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -28,6 +39,8 @@ a:hover {
 
 .btn {
   background: #fc4a1a;
+  color: white;
+  margin-bottom: 3%;
 }
 
 .btn:hover {
@@ -162,10 +175,26 @@ td {
 }
 
 /*Dashboard*/
+.land {
+  display: block;
+}
+
+.afterAbout {
+  display: none;
+}
+
+.afterRules {
+  display: none;
+}
+
 .welcome {
   text-align: center;
   font-family: "Oswald", sans-serif;
-  font-size: 75px;
+  font-size: 100px;
+  align-items: flex-end;
+  min-height: 300px;
+  display: flex;
+  justify-content: center;
 }
 
 #title {
@@ -176,4 +205,33 @@ td {
   color: #f7b733;
 }
 
-/* #content {} */
+.greet {
+  color: black;
+  padding-bottom: 3%;
+}
+
+.viewbtn {
+  display: block;
+}
+
+/* #list2 {
+  width: 320px;
+} */
+
+#list2 ol {
+  font-style: italic;
+  font-family: Georgia, Times, serif;
+  font-size: 40px;
+  color: #4abdac;
+}
+
+#list2 ol li p {
+  padding: 8px;
+  font-size: 25px;
+  color: black;
+  border-left: 1px solid #999;
+}
+
+#list2 ol li p em {
+  display: block;
+}

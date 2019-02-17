@@ -3,7 +3,6 @@ var characterList = [];
 var $characterContainer = $("#container-character");
 $(document).ready(function() {
   var socket = io();
-
   socket.on("startCharSelect", function(turn) {
     $("#playerSelectModelId").attr("data-turn", turn);
     $("#select-char").attr("data-player", turn);
@@ -16,9 +15,7 @@ $(document).ready(function() {
 
   $.get("/api/players", function(data) {
     playerNum = data.length;
-    $(".player-num")
-      .text(playerNum)
-      .attr("data-player", playerNum);
+    $(".player-num").attr("data-player", playerNum);
 
     console.log(data.length);
     if (data.length === 4) {
@@ -117,7 +114,10 @@ $(document).ready(function() {
 
   $(document).on("click", ".validMove", function() {
     var newLocation = parseInt($(this).attr("id"));
-    var newBoardState = { newPosition: newLocation, playerId: playerNum };
+    var newBoardState = {
+      newPosition: newLocation,
+      playerId: playerNum
+    };
     $.ajax("/api/board", {
       type: "PUT",
       data: newBoardState,
@@ -185,7 +185,10 @@ $(document).ready(function() {
       characterList = data;
       console.log(characterList);
       initializeRows();
-      $("#playerSelectModelId").modal({ backdrop: "static", keyboard: false });
+      $("#playerSelectModelId").modal({
+        backdrop: "static",
+        keyboard: false
+      });
     });
   }
 

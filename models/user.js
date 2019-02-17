@@ -9,7 +9,7 @@ module.exports = function (sequelize, Sequelize) {
         },
 
         username: {
-            type: Sequelize.STRING(4),
+            type: Sequelize.STRING,
             allowNull: false,
             validate: {
                 notContains: ' ',
