@@ -48,6 +48,9 @@ $(document).ready(function() {
       }
 
       board = JSON.parse(data[0].boardSpots);
+      var paths = JSON.parse(data[0].imagePaths);
+      console.log(data[0]);
+
       var boardSpot = [];
       console.log(board);
 
@@ -55,36 +58,44 @@ $(document).ready(function() {
       $(".hasPlayer").removeClass("hasPlayer");
       $(".hasItem").removeClass("hasItem");
 
-       for (var i = 0; i < board.spots.length; i++) {
-         if (board.spots[i].hasItem) {
-           $("#" + i).addClass("hasItem");
-         }
-         if (board.spots[i].hasPlayer) {
-           $("#" + i).addClass("hasPlayer");
-           switch (board.spots[i].playerId) {
-             case 1:
-               $("#" + i).addClass("player1");
-               break;
-             case 2:
-               $("#" + i).addClass("player2");
-               break;
-             case 3:
-               $("#" + i).addClass("player3");
-               break;
-             case 4:
-               $("#" + i).addClass("player4");
-               break;
-           }
+      for (var i = 0; i < board.spots.length; i++) {
+        if (board.spots[i].hasItem) {
+          $("#" + i).addClass("hasItem");
+        }
+        if (board.spots[i].hasPlayer) {
+          $("#" + i).addClass("hasPlayer");
+          switch (board.spots[i].playerId) {
+            case 1:
+              $("#" + i)
+                .addClass("player1")
+                .css("background-image", "url(" + paths.p1 + ")");
+              break;
+            case 2:
+              $("#" + i)
+                .addClass("player2")
+                .css("background-image", "url(" + paths.p2 + ")");
+              break;
+            case 3:
+              $("#" + i)
+                .addClass("player3")
+                .css("background-image", "url(" + paths.p3 + ")");
+              break;
+            case 4:
+              $("#" + i)
+                .addClass("player4")
+                .css("background-image", "url(" + paths.p4 + ")");
+              break;
+          }
 
-           console.log(
-             board.spots[i].playerId + ", " + parseInt(playerData[4][0])
-           );
+          console.log(
+            board.spots[i].playerId + ", " + parseInt(playerData[4][0])
+          );
 
-           if (board.spots[i].playerId === parseInt(playerData[4][0])) {
-             boardSpot = board.spots[i].validMoves;
-           }
-         }
-       }
+          if (board.spots[i].playerId === parseInt(playerData[4][0])) {
+            boardSpot = board.spots[i].validMoves;
+          }
+        }
+      }
       $("#end-turn").hide();
       $(".player-turn").text(playerData[4][0]);
       changeTurn(parseInt(playerData[4][0]), boardSpot);
@@ -122,6 +133,7 @@ $(document).ready(function() {
     $("#player-card-" + turn).addClass("turn-active-card");
     $.get("/api/board", function(data) {
       board = JSON.parse(data[0].boardSpots);
+      var paths = JSON.parse(data[0].imagePaths);
       var boardSpot = [];
       console.log(board);
 
@@ -138,7 +150,11 @@ $(document).ready(function() {
           $("#" + i).addClass("hasPlayer");
 
           if (board.spots[i].playerId === turn) {
-            $("#" + i).addClass("player" + turn);
+            var path = paths["p" + turn];
+            console.log(path);
+            $("#" + i)
+              .addClass("player" + turn)
+              .css("background-image", "url(" + path + ")");
             boardSpot = board.spots[i].validMoves;
           }
         }
@@ -202,10 +218,8 @@ $(document).ready(function() {
 
     //creating img tag
     var charImg = $("<img>");
-    charImg.attr(
-      "src",
-      ["/images/", character.character_name, ".png"].join("")
-    );
+    var path = character.character_name.replace(/\s/g, "");
+    charImg.attr("src", ["/images/", path, ".png"].join(""));
     charImg.attr("id", ["img-", character.id].join(""));
     charImg.attr("class", "resize");
     if (!character.charSelected) {
@@ -215,7 +229,11 @@ $(document).ready(function() {
 
     //if currently active/selected, disable it
     if (character.activeFlag === "Y") {
-      charImg.addClass("char-selected");
+      if (character.charSelected) {
+        charImg.addClass("char-chosen");
+      } else {
+        charImg.addClass("char-selected");
+      }
     }
 
     var figName2 = $("<figure>");
@@ -256,15 +274,14 @@ $(document).ready(function() {
         flagToset = "Y";
       }
 
-      if(flagToset === "Y"){
+      if (flagToset === "Y") {
         charSelectedVar = true;
-      }
-      else{
+      } else {
         charSelectedVar = false;
       }
       var character = {
         activeFlag: flagToset,
-        charSelected: charSelectedVar,
+        charSelected: false,
         id: idarr[1]
       };
       //updating active flag to database, character table
@@ -291,12 +308,16 @@ $(document).ready(function() {
       charSelected: true,
       id: idarr[1]
     };
+    var turnAndId = {
+      playerTurn: turn,
+      id: idarr[1]
+    };
     $.ajax({
       method: "PUT",
       url: "/api/characters",
       data: character
     }).then(function() {
-      socket.emit("selectCharacter", turn);
+      socket.emit("selectCharacter", turnAndId);
     });
   });
 });

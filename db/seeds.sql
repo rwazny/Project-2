@@ -41,22 +41,22 @@ VALUES("Donut", 5);
 
 
 INSERT INTO Characters (character_name, hp, attack, ItemId, imgLoc)
-VALUES("Chilli Pepper", 100, 25, (SELECT id from Items where item_name = "Fire"), "/images/Chilli Pepper.png");
+VALUES("Chilli Pepper", 100, 25, (SELECT id from Items where item_name = "Fire"), "../images/ChilliPepper.png");
 
 INSERT INTO Characters(character_name, hp, attack, ItemId, imgLoc)
-VALUES("Passion Fruit", 100, 25, (SELECT id from Items where item_name = "Candy Bar"), "/images/Passion Fruit.png");
+VALUES("Passion Fruit", 100, 25, (SELECT id from Items where item_name = "Candy Bar"), "../images/PassionFruit.png");
 
 INSERT INTO Characters(character_name, hp, attack, ItemId, imgLoc)
-VALUES("Crab", 125, 15, (SELECT id from Items where item_name = "Knife"), "/images/Crab.png");
+VALUES("Crab", 125, 15, (SELECT id from Items where item_name = "Knife"), "../images/Crab.png");
 
 INSERT INTO Characters(character_name, hp, attack, ItemId, imgLoc)
-VALUES("Egg", 100, 25, (SELECT id from Items where item_name = "Fried Chicken"), "/images/Egg.png");
+VALUES("Egg", 100, 25, (SELECT id from Items where item_name = "Fried Chicken"), "../images/Egg.png");
 
 INSERT INTO Characters(character_name, hp, attack, ItemId, imgLoc)
-VALUES("Broccoli", 100, 25, (SELECT id from Items where item_name = "Donut"), "/images/Broccoli.png");
+VALUES("Broccoli", 100, 25, (SELECT id from Items where item_name = "Donut"), "../images/Broccoli.png");
 
 INSERT INTO Characters(character_name, hp, attack, ItemId, imgLoc)
-VALUES("Durian", 100, 25, (SELECT id from Items where item_name = "Cookie"), "/images/Durian.png");
+VALUES("Durian", 100, 25, (SELECT id from Items where item_name = "Cookie"), "../images/Durian.png");
 
 SELECT * FROM Characters;
 SELECT * FROM Items;

@@ -83,8 +83,8 @@ io.on("connection", function(socket) {
     Game.clickCharacter(io);
   });
 
-  socket.on("selectCharacter", function(turn) {
-    Game.selectCharacter(io, turn);
+  socket.on("selectCharacter", function(turnAndId) {
+    Game.selectCharacter(io, turnAndId);
   });
 
   socket.on("startGame", function(data) {
