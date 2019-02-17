@@ -1,10 +1,9 @@
 //Modal related changes
 var characterList = [];
 var $characterContainer = $("#container-character");
-$(document).ready(function() {
+$(document).ready(function () {
   var socket = io();
-
-  socket.on("startCharSelect", function(turn) {
+  socket.on("startCharSelect", function (turn) {
     $("#playerSelectModelId").attr("data-turn", turn);
     $("#select-char").attr("data-player", turn);
     $("#character-turn").text(turn);
@@ -14,7 +13,7 @@ $(document).ready(function() {
   var playerNum;
   $("#end-turn").hide();
 
-  $.get("/api/players", function(data) {
+  $.get("/api/players", function (data) {
     playerNum = data.length;
     $(".player-num")
       .text(playerNum)
@@ -28,10 +27,10 @@ $(document).ready(function() {
     }
   });
 
-  socket.on("startGame", function(playerData) {
+  socket.on("startGame", function (playerData) {
     $("#playerSelectModelId").modal("toggle");
     console.log(playerData);
-    $.get("/api/board", function(data) {
+    $.get("/api/board", function (data) {
       for (var i = 0; i < playerData.length - 1; i++) {
         var newPlayerDiv = $("<div>");
         newPlayerDiv
@@ -104,23 +103,26 @@ $(document).ready(function() {
     }
   }
 
-  $(document).on("click", ".validMove", function() {
+  $(document).on("click", ".validMove", function () {
     var newLocation = parseInt($(this).attr("id"));
-    var newBoardState = { newPosition: newLocation, playerId: playerNum };
+    var newBoardState = {
+      newPosition: newLocation,
+      playerId: playerNum
+    };
     $.ajax("/api/board", {
       type: "PUT",
       data: newBoardState,
-      success: function(data) {
+      success: function (data) {
         console.log(data);
         socket.emit("playerMove", playerNum);
       }
     });
   });
 
-  socket.on("startTurn", function(turn) {
+  socket.on("startTurn", function (turn) {
     $(".turn-active-card").removeClass("turn-active-card");
     $("#player-card-" + turn).addClass("turn-active-card");
-    $.get("/api/board", function(data) {
+    $.get("/api/board", function (data) {
       board = JSON.parse(data[0].boardSpots);
       var boardSpot = [];
       console.log(board);
@@ -149,27 +151,30 @@ $(document).ready(function() {
     });
   });
 
-  socket.on("changeTimer", function(secondsLeft) {
+  socket.on("changeTimer", function (secondsLeft) {
     var max = $(".progress-bar").attr("aria-valuemax");
     var percent = (secondsLeft / max) * 100;
     $(".progress-bar").attr("aria-valuenow", secondsLeft);
     $(".progress-bar").css("width", percent + "%");
   });
 
-  $("#end-turn").click(function() {
+  $("#end-turn").click(function () {
     socket.emit("endTurn", playerNum);
   });
 
-  socket.on("clickCharacter", function() {
+  socket.on("clickCharacter", function () {
     refreshCharacters();
   });
 
   function refreshCharacters() {
-    $.get("/api/characters", function(data) {
+    $.get("/api/characters", function (data) {
       characterList = data;
       console.log(characterList);
       initializeRows();
-      $("#playerSelectModelId").modal({ backdrop: "static", keyboard: false });
+      $("#playerSelectModelId").modal({
+        backdrop: "static",
+        keyboard: false
+      });
     });
   }
 
@@ -236,7 +241,7 @@ $(document).ready(function() {
     return playerCardSpan;
   }
 
-  $(document).on("click", ".char-img", function() {
+  $(document).on("click", ".char-img", function () {
     var turn = $("#playerSelectModelId").attr("data-turn");
     var playerNum = $(".player-num").attr("data-player");
     console.log("turn: " + turn + ", playerNum: " + playerNum);
@@ -269,12 +274,12 @@ $(document).ready(function() {
       method: "PUT",
       url: "/api/characters",
       data: character
-    }).then(function() {
+    }).then(function () {
       socket.emit("clickCharacter");
     });
   }
 
-  $("#select-char").click(function() {
+  $("#select-char").click(function () {
     var idstr = $(".char-selected").attr("id");
     var turn = $("#select-char").attr("data-player");
     var idarr = idstr.split("-");
@@ -287,7 +292,7 @@ $(document).ready(function() {
       method: "PUT",
       url: "/api/characters",
       data: character
-    }).then(function() {
+    }).then(function () {
       socket.emit("selectCharacter", turn);
     });
   });

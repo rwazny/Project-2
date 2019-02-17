@@ -3,9 +3,11 @@
 
 <head>
     <title></title>
+
 </head>
 
 <body>
+    <script src="/js/authentication.js"></script>
     <div class="container">
         <div class="form">
             <form id="signin" name="signin" method="post" action="signin">
@@ -14,13 +16,14 @@
                     <li class="tab-active"><a href="/signin">Sign In</a></li>
                 </ul>
                 <label for="username">Create A Unique Username</label>
-                <input class="text" name="username" type="text" />
+                <input class="text" id="username" name="username" type="text" />
                 <label for="password">Password</label>
-                <input name="password" type="password" />
+                <input name="password" type="password" id="password" />
                 <input class="btn" type="submit" value="Sign In" />
             </form>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 </body>
 
 </html>

@@ -44,7 +44,7 @@
         <div id="player-col" class="col-md-3">
             <div class="player-card-top">
                 <div>
-                    <h2>Player: <span class="player-num" data-player=""></span></h2>
+                    <h2>Player: {{user.username}}</h2>
                     <h5>Current turn: Player <span class="player-turn"></span></h5>
                     <h5>Moves: <span class="player-moves"></span></h5>
                     <button class="btn" id="end-turn">End Turn</button>
@@ -70,7 +70,8 @@
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="heading">
-                            <h1>Player <span id="character-turn">0</span> is choosing</h1>
+                            <h1>Player <span id="character-turn">0
+                                </span> is choosing</h1>
                         </div>
                         <hr>
                         <div id="container-character">

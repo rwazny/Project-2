@@ -1,3 +1,4 @@
+var db = require("../models")
 var exports = module.exports = {}
 
 exports.signup = function (req, res) {
@@ -25,5 +26,23 @@ exports.logout = function (req, res) {
         res.redirect('/');
 
     });
+}
 
+exports.findUser = function (req, res) {
+    db.user.findOne({
+        where: {
+            username: req.params.username
+        }
+    }).then(user => {
+
+
+        res.render('gameboard', {
+            user: user
+        })
+        console.log(`
+            
+            ${JSON.stringify(user)}
+            
+            `)
+    })
 }
