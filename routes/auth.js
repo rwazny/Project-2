@@ -13,7 +13,7 @@ module.exports = function (app, passport) {
 
   // //User cannot access these pages unless logged in
   app.get('/dashboard/:username?', isLoggedIn, authController.dashboard);
-  app.get("/gameboard/:username?", isLoggedIn, authController.findUser);
+b  
 
   app.get("/logout", authController.logout);
 
