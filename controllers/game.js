@@ -191,10 +191,13 @@ var Game = {
       ]
     };
     newBoardSpots = JSON.stringify(newBoardSpots);
+    var paths = { p1: "", p2: "", p3: "", p4: "" };
+    paths = JSON.stringify(paths);
     var newBoard = {
       turnOrder: newOrder,
       currentTurn: parseInt(newOrder[0]),
-      boardSpots: newBoardSpots
+      boardSpots: newBoardSpots,
+      imagePaths: paths
     };
     db.Board.create(newBoard).then(function() {
       io.emit("startCharSelect", newOrder[0]);
@@ -205,34 +208,44 @@ var Game = {
     io.emit("clickCharacter");
   },
 
-  selectCharacter: function(io, turn) {
-    db.Board.findAll({}).then(function(data) {
-      var startGame = false;
-      if (parseInt(turn) === data[0].currentTurn) {
-        var index = data[0].turnOrder.indexOf(data[0].currentTurn);
-        var newTurn;
+  selectCharacter: function(io, turnAndId) {
+    db.Character.findOne({ where: { id: parseInt(turnAndId.id) } }).then(
+      function(charData) {
+        db.Board.findAll({}).then(function(data) {
+          var paths = JSON.parse(data[0].imagePaths);
+          paths["p" + turnAndId.playerTurn] = charData.imgLoc;
+          paths = JSON.stringify(paths);
+          var startGame = false;
+          console.log("\n\n\n" + paths + "\n\n\n");
 
-        if (data[0].turnOrder[index + 1]) {
-          newTurn = parseInt(data[0].turnOrder[index + 1]);
-        } else {
-          startGame = true;
-          newTurn = parseInt(data[0].turnOrder[0]);
-        }
+          if (parseInt(turnAndId.playerTurn) === data[0].currentTurn) {
+            var index = data[0].turnOrder.indexOf(data[0].currentTurn);
+            var newTurn;
 
-        db.Board.update({ currentTurn: newTurn }, { where: { id: 1 } }).then(
-          function() {
-            if (startGame) {
-              db.Player.findAll({}).then(function(playerData) {
-                playerData.push(data[0].turnOrder);
-                io.emit("startGame", playerData);
-              });
+            if (data[0].turnOrder[index + 1]) {
+              newTurn = parseInt(data[0].turnOrder[index + 1]);
             } else {
-              io.emit("startCharSelect", newTurn);
+              startGame = true;
+              newTurn = parseInt(data[0].turnOrder[0]);
             }
+
+            db.Board.update(
+              { currentTurn: newTurn, imagePaths: paths },
+              { where: { id: 1 } }
+            ).then(function() {
+              if (startGame) {
+                db.Player.findAll({}).then(function(playerData) {
+                  playerData.push(data[0].turnOrder);
+                  io.emit("startGame", playerData);
+                });
+              } else {
+                io.emit("startCharSelect", newTurn);
+              }
+            });
           }
-        );
+        });
       }
-    });
+    );
   },
 
   createBoard: function(io) {},
