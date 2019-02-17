@@ -10,7 +10,7 @@
 }
 
 body {
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   background: #dfdce3;
   color: #1d1e22;
 }
@@ -18,7 +18,7 @@ body {
 a {
   text-decoration: underline;
   color: #4abdac;
-  font-family: "Oswald", sans-serif;
+  font-family: 'Oswald', sans-serif;
   font-size: 60px;
 }
 
@@ -99,7 +99,7 @@ td {
   background-color: rgb(111, 229, 225);
 }
 .player1 {
-  background-image: url("../images/ChiliPepper.png");
+  background-image: url('../images/ChiliPepper.png');
   -webkit-filter: drop-shadow(5px 5px 0px #a988f8);
   filter: drop-shadow(8px 8px 0px #a988f8) drop-shadow(-8px -8px 0px #a988f8)
     drop-shadow(-8px 8px 0px #a988f8) drop-shadow(8px -8px 0px #a988f8);
@@ -108,7 +108,7 @@ td {
   background-position: center;
 }
 .player2 {
-  background-image: url("../images/Crab.png");
+  background-image: url('../images/Crab.png');
   -webkit-filter: drop-shadow(5px 5px 5px chartreuse);
   filter: drop-shadow(5px 5px 0px chartreuse);
   background-size: contain;
@@ -116,7 +116,7 @@ td {
   background-position: center;
 }
 .player3 {
-  background-image: url("../images/DurianFruit.png");
+  background-image: url('../images/DurianFruit.png');
   -webkit-filter: drop-shadow(5px 5px 5px rgb(242, 78, 92));
   filter: drop-shadow(5px 5px 0px rgb(242, 78, 92));
   background-size: contain;
@@ -124,7 +124,7 @@ td {
   background-position: center;
 }
 .player4 {
-  background-image: url("../images/Broccoli.png");
+  background-image: url('../images/Broccoli.png');
   -webkit-filter: drop-shadow(5px 5px 5px rgb(111, 229, 225));
   filter: drop-shadow(5px 5px 0px rgb(111, 229, 225));
   background-size: contain;
@@ -152,4 +152,24 @@ td {
 }
 .player-card {
   padding: 23px;
+}
+
+/*Media Query*/
+/* // Extra small devices (portrait phones, less than 576px)
+// No media query since this is the default in Bootstrap */
+
+/* // Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+}
+
+/* // Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+}
+
+/* // Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+}
+
+/* // Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
 }

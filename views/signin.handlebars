@@ -2,25 +2,49 @@
 <html>
 
 <head>
-    <title></title>
+    <title>Food Fight</title>
 </head>
 
 <body>
     <div class="container">
-        <div class="form">
-            <form id="signin" name="signin" method="post" action="signin">
+
+        <img src="/images/main_characters_page.png" class="img-fluid">
+        <form id="signin" name="signin" method="post" action="signin">
+            <ul class="tab-group">
+                <li class="tab"><a href="/signup">Sign Up</a></li>
+                <li class="tab-active"><a href="/signin">Sign In</a></li>
+            </ul>
+            <div class="d-flex justify-content-center">
+                <div class="">
+                    <label class="sr-only" for="inlineFormInputName">Email</label>
+                    <input type="text" class="form-control" id="inlineFormInputName" placeholder="Email">
+                </div>
+                <div class="">
+                    <label class="sr-only" for="inlineFormInputGroupUsername">Password</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend"></div>
+                        <input type="password" class="form-control" id="inlineFormInputGroupUsername"
+                            placeholder="Password">
+                    </div>
+                </div>
+                <div class="">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+    </div>
+    </div>
+    </div>
+    </form>
+    <!-- <form id="signin" name="signin" method="post" action="signin">
                 <ul class="tab-group">
-                    <li class="tab"><a href="/signup">Sign Up</a></li>
-                    <li class="tab-active"><a href="/signin">Sign In</a></li>
+                    <li class="tab"><a href="/signup">Sign Up</a></li>    
                 </ul>
                 <label for="email">Email Address</label>
                 <input class="text" name="email" type="text" />
                 <label for="password">Password</label>
                 <input name="password" type="password" />
-                <input class="btn" type="submit" value="Sign In" />
-            </form>
-        </div>
-    </div>
+                <input class="btn" type="submit" value="Sign In" /> -->
+
 </body>
 
 </html>
