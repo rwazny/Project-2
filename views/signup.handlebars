@@ -65,7 +65,7 @@
                     characterList = data;
                     characterList.forEach(character => {
                         var newChar = jQuery.extend(true, {}, character);
-                        newChar.activeFlag = "N";
+                        newChar.activeFlag = 'N';
                         newChar.charSelected = false;
                         $.ajax({
                             method: "PUT",

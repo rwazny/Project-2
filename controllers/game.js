@@ -1,14 +1,7 @@
 var db = require("./../models");
-// const rollADie = require("./../roll-a-die");
+var turnTimer;
 
 var Game = {
-  addPlayer: function(io, playerName) {
-    //   db.Players.findAll({}).then(function(data) {
-    //   });
-    //   var newPlayer = {name: }
-    // db.Player.create
-  },
-
   characterSelect: function(io) {
     var newOrder = this.newTurnOrder();
     var newBoardSpots = {
@@ -17,13 +10,17 @@ var Game = {
           // 0
           hasPlayer: true,
           hasItem: false,
+          itemId: 0,
+          itemPath: "",
           validMoves: [1, 5],
           playerId: 1
         },
         {
           // 1
           hasPlayer: false,
-          hasItem: true,
+          hasItem: false,
+          itemId: 0,
+          itemPath: "",
           validMoves: [0, 2, 6],
           playerId: 0
         },
@@ -31,6 +28,8 @@ var Game = {
           // 2
           hasPlayer: false,
           hasItem: false,
+          itemId: 0,
+          itemPath: "",
           validMoves: [1, 3, 7],
           playerId: 0
         },
@@ -38,6 +37,8 @@ var Game = {
           // 3
           hasPlayer: false,
           hasItem: false,
+          itemId: 0,
+          itemPath: "",
           validMoves: [2, 4, 8],
           playerId: 0
         },
@@ -45,13 +46,17 @@ var Game = {
           // 4
           hasPlayer: true,
           hasItem: false,
+          itemId: 0,
+          itemPath: "",
           validMoves: [3, 9],
           playerId: 2
         },
         {
           // 5
           hasPlayer: false,
-          hasItem: true,
+          hasItem: false,
+          itemId: 0,
+          itemPath: "",
           validMoves: [0, 10],
           playerId: 0
         },
@@ -59,6 +64,8 @@ var Game = {
           // 6
           hasPlayer: false,
           hasItem: false,
+          itemId: 0,
+          itemPath: "",
           validMoves: [1, 11],
           playerId: 0
         },
@@ -66,6 +73,8 @@ var Game = {
           // 7
           hasPlayer: false,
           hasItem: false,
+          itemId: 0,
+          itemPath: "",
           validMoves: [2, 12],
           playerId: 0
         },
@@ -73,6 +82,8 @@ var Game = {
           // 8
           hasPlayer: false,
           hasItem: false,
+          itemId: 0,
+          itemPath: "",
           validMoves: [3, 9, 13],
           playerId: 0
         },
@@ -80,6 +91,8 @@ var Game = {
           // 9
           hasPlayer: false,
           hasItem: false,
+          itemId: 0,
+          itemPath: "",
           validMoves: [4, 8, 14],
           playerId: 0
         },
@@ -87,6 +100,8 @@ var Game = {
           // 10
           hasPlayer: false,
           hasItem: false,
+          itemId: 0,
+          itemPath: "",
           validMoves: [5, 15],
           playerId: 0
         },
@@ -94,6 +109,8 @@ var Game = {
           // 11
           hasPlayer: false,
           hasItem: false,
+          itemId: 0,
+          itemPath: "",
           validMoves: [6, 16],
           playerId: 0
         },
@@ -101,13 +118,17 @@ var Game = {
           // 12
           hasPlayer: false,
           hasItem: false,
+          itemId: 0,
+          itemPath: "",
           validMoves: [7, 17],
           playerId: 0
         },
         {
           // 13
           hasPlayer: false,
-          hasItem: true,
+          hasItem: false,
+          itemId: 0,
+          itemPath: "",
           validMoves: [8, 14, 18],
           playerId: 0
         },
@@ -115,6 +136,8 @@ var Game = {
           // 14
           hasPlayer: false,
           hasItem: false,
+          itemId: 0,
+          itemPath: "",
           validMoves: [9, 13, 19],
           playerId: 0
         },
@@ -122,6 +145,8 @@ var Game = {
           // 15
           hasPlayer: false,
           hasItem: false,
+          itemId: 0,
+          itemPath: "",
           validMoves: [10, 20],
           playerId: 0
         },
@@ -129,6 +154,8 @@ var Game = {
           // 16
           hasPlayer: false,
           hasItem: false,
+          itemId: 0,
+          itemPath: "",
           validMoves: [11, 21],
           playerId: 0
         },
@@ -136,6 +163,8 @@ var Game = {
           // 17
           hasPlayer: false,
           hasItem: false,
+          itemId: 0,
+          itemPath: "",
           validMoves: [12, 22],
           playerId: 0
         },
@@ -143,6 +172,8 @@ var Game = {
           // 18
           hasPlayer: false,
           hasItem: false,
+          itemId: 0,
+          itemPath: "",
           validMoves: [13, 19, 23],
           playerId: 0
         },
@@ -150,6 +181,8 @@ var Game = {
           // 19
           hasPlayer: false,
           hasItem: false,
+          itemId: 0,
+          itemPath: "",
           validMoves: [14, 18, 24],
           playerId: 0
         },
@@ -157,6 +190,8 @@ var Game = {
           // 20
           hasPlayer: true,
           hasItem: false,
+          itemId: 0,
+          itemPath: "",
           validMoves: [15, 21],
           playerId: 3
         },
@@ -164,13 +199,17 @@ var Game = {
           // 21
           hasPlayer: false,
           hasItem: false,
+          itemId: 0,
+          itemPath: "",
           validMoves: [16, 20, 22],
           playerId: 0
         },
         {
           // 22
           hasPlayer: false,
-          hasItem: true,
+          hasItem: false,
+          itemId: 0,
+          itemPath: "",
           validMoves: [17, 21, 23],
           playerId: 0
         },
@@ -178,6 +217,8 @@ var Game = {
           // 23
           hasPlayer: false,
           hasItem: false,
+          itemId: 0,
+          itemPath: "",
           validMoves: [18, 22, 24],
           playerId: 0
         },
@@ -185,22 +226,43 @@ var Game = {
           // 24
           hasPlayer: true,
           hasItem: false,
+          itemId: 0,
+          itemPath: "",
           validMoves: [19, 23],
           playerId: 4
         }
       ]
     };
-    newBoardSpots = JSON.stringify(newBoardSpots);
-    var paths = { p1: "", p2: "", p3: "", p4: "" };
-    paths = JSON.stringify(paths);
-    var newBoard = {
-      turnOrder: newOrder,
-      currentTurn: parseInt(newOrder[0]),
-      boardSpots: newBoardSpots,
-      imagePaths: paths
-    };
-    db.Board.create(newBoard).then(function() {
-      io.emit("startCharSelect", newOrder[0]);
+
+    db.Item.findAll({}).then(function(items) {
+      console.log("\n\n" + items.length + "\n\n");
+      for (var i = 0; i < items.length; i++) {
+        var spotId = Math.floor(Math.random() * newBoardSpots.spots.length);
+        if (
+          !newBoardSpots.spots[spotId].hasPlayer &&
+          !newBoardSpots.spots[spotId].hasItem
+        ) {
+          newBoardSpots.spots[spotId].hasItem = true;
+          newBoardSpots.spots[spotId].itemId = items[i].id;
+          newBoardSpots.spots[spotId].itemPath = items[i].imgLoc;
+        } else {
+          console.log("missing 1");
+          i--;
+        }
+      }
+
+      newBoardSpots = JSON.stringify(newBoardSpots);
+      var paths = { p1: "", p2: "", p3: "", p4: "" };
+      paths = JSON.stringify(paths);
+      var newBoard = {
+        turnOrder: newOrder,
+        currentTurn: parseInt(newOrder[0]),
+        boardSpots: newBoardSpots,
+        imagePaths: paths
+      };
+      db.Board.create(newBoard).then(function() {
+        io.emit("startCharSelect", newOrder[0]);
+      });
     });
   },
 
@@ -216,7 +278,6 @@ var Game = {
           paths["p" + turnAndId.playerTurn] = charData.imgLoc;
           paths = JSON.stringify(paths);
           var startGame = false;
-          console.log("\n\n\n" + paths + "\n\n\n");
 
           if (parseInt(turnAndId.playerTurn) === data[0].currentTurn) {
             var index = data[0].turnOrder.indexOf(data[0].currentTurn);
@@ -236,6 +297,7 @@ var Game = {
               if (startGame) {
                 db.Player.findAll({}).then(function(playerData) {
                   playerData.push(data[0].turnOrder);
+                  Game.startTurnTimer(io, parseInt(data[0].turnOrder[0]), 20);
                   io.emit("startGame", playerData);
                 });
               } else {
@@ -248,7 +310,20 @@ var Game = {
     );
   },
 
-  createBoard: function(io) {},
+  rollDice: function(io, turn) {
+    var num1 = Math.floor(Math.random() * 6) + 1;
+    var num2 = Math.floor(Math.random() * 6) + 1;
+    db.Board.update({ movesRemaining: num1 + num2 }, { where: { id: 1 } }).then(
+      function() {
+        var diceNumbers = {
+          die1: num1,
+          die2: num2,
+          moves: num1 + num2
+        };
+        io.emit("rollDice", diceNumbers);
+      }
+    );
+  },
 
   start: function(io, data) {
     var newOrder = this.newTurnOrder();
@@ -445,7 +520,6 @@ var Game = {
   },
 
   startTurn: function(io, start) {
-    console.log("move 2");
     io.emit("startTurn", start);
   },
 
@@ -462,11 +536,14 @@ var Game = {
   },
 
   playerMove: function(io, playerId) {
-    var nextTurn = 1;
-    if (playerId === 1) {
-      nextTurn = 2;
-    }
-    io.emit("startTurn", playerId);
+    db.Board.findOne({ where: { id: 1 } }).then(function(board) {
+      db.Board.update(
+        { movesRemaining: board.movesRemaining - 1 },
+        { where: { id: 1 } }
+      ).then(function(data) {
+        io.emit("startTurn", playerId);
+      });
+    });
   },
 
   endTurn: function(io, turn) {
@@ -481,19 +558,20 @@ var Game = {
           newTurn = parseInt(results[0].turnOrder[0]);
         }
 
-        db.Board.update({ currentTurn: newTurn }, { where: { id: 1 } }).then(
-          function(data) {
-            console.log(data);
-            Game.startTurnTimer(io, newTurn, 20);
-            io.emit("startTurn", newTurn);
-          }
-        );
+        db.Board.update(
+          { currentTurn: newTurn, movesRemaining: 0 },
+          { where: { id: 1 } }
+        ).then(function(data) {
+          Game.updateTurnTimer();
+          Game.startTurnTimer(io, newTurn, 20);
+          io.emit("startTurn", newTurn);
+        });
       }
     });
   },
 
   startTurnTimer: function(io, turn, timerCount) {
-    setTimeout(() => {
+    turnTimer = setTimeout(() => {
       timerCount--;
       io.emit("changeTimer", timerCount);
       if (timerCount <= 0) {
@@ -505,7 +583,9 @@ var Game = {
     }, 1000);
   },
 
-  updateTurnTimer: function(io, turn, timerCount) {}
+  updateTurnTimer: function() {
+    clearTimeout(turnTimer);
+  }
 };
 
 module.exports = Game;

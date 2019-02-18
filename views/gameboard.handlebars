@@ -1,59 +1,59 @@
 <div class="container">
     <div class="row">
         <div class="col-md-9">
-            <table>
+            <table id="gameboard">
                 <tbody>
                     <tr>
-                        <td id="0">0</td>
-                        <td id="1">1</td>
-                        <td id="2">2</td>
-                        <td id="3">3</td>
-                        <td id="4">4</td>
+                        <td id="0"></td>
+                        <td id="1"></td>
+                        <td id="2"></td>
+                        <td id="3"></td>
+                        <td id="4"></td>
                     </tr>
                     <tr>
-                        <td id="5">5</td>
-                        <td id="6">6</td>
-                        <td id="7">7</td>
-                        <td id="8">8</td>
-                        <td id="9">9</td>
+                        <td id="5"></td>
+                        <td id="6"></td>
+                        <td id="7"></td>
+                        <td id="8"></td>
+                        <td id="9"></td>
                     </tr>
                     <tr>
-                        <td id="10">10</td>
-                        <td id="11">11</td>
-                        <td id="12">12</td>
-                        <td id="13">13</td>
-                        <td id="14">14</td>
+                        <td id="10"></td>
+                        <td id="11"></td>
+                        <td id="12"></td>
+                        <td id="13"></td>
+                        <td id="14"></td>
                     </tr>
                     <tr>
-                        <td id="15">15</td>
-                        <td id="16">16</td>
-                        <td id="17">17</td>
-                        <td id="18">18</td>
-                        <td id="19">19</td>
+                        <td id="15"></td>
+                        <td id="16"></td>
+                        <td id="17"></td>
+                        <td id="18"></td>
+                        <td id="19"></td>
                     </tr>
                     <tr>
-                        <td id="20">20</td>
-                        <td id="21">21</td>
-                        <td id="22">22</td>
-                        <td id="23">23</td>
-                        <td id="24">24</td>
+                        <td id="20"></td>
+                        <td id="21"></td>
+                        <td id="22"></td>
+                        <td id="23"></td>
+                        <td id="24"></td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div id="player-col" class="col-md-3">
-            <div class="player-card-top">
+            <div class="player-card-top player-num">
                 <div>
-                    <h2 class="player-num">Player: {{user.username}}</h2>
-                    <h5>Current turn: Player <span class="player-turn"></span></h5>
                     <h5>Moves: <span class="player-moves"></span></h5>
-                    <button class="btn" id="end-turn">End Turn</button>
+                    <button class="btn btn-lg" id="roll-dice" disabled>Roll!</button>
+                    <button class="btn btn-lg" id="end-turn" disabled>End Turn</button>
                 </div>
                 <div class="progress">
                     <div class="progress-bar bg-success" style="width:100%" role="progressbar" aria-valuenow="20"
                         aria-valuemin="0" aria-valuemax="20"></div>
                 </div>
             </div>
+            <div id="roll-div"></div>
         </div>
     </div>
 </div>
@@ -90,6 +90,7 @@
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
+<script src="/js/roll-a-die.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
