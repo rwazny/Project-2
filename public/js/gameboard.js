@@ -42,7 +42,7 @@ $(document).ready(function() {
         }
       }
 
-      board = JSON.parse(data[0].boardSpots);
+      var board = JSON.parse(data[0].boardSpots);
       var paths = JSON.parse(data[0].imagePaths);
 
       var boardSpot = [];
@@ -53,7 +53,13 @@ $(document).ready(function() {
 
       for (var i = 0; i < board.spots.length; i++) {
         if (board.spots[i].hasItem) {
-          $("#" + i).addClass("hasItem");
+          var newItemDiv = $("<div>");
+          newItemDiv.addClass("hasItem");
+          newItemDiv.html(
+            "<img class='item-image' src=" + board.spots[i].itemPath + ">"
+          );
+
+          $("#" + i).append(newItemDiv);
         }
         if (board.spots[i].hasPlayer) {
           switch (board.spots[i].playerId) {
@@ -166,7 +172,7 @@ $(document).ready(function() {
               .addClass("player" + turn)
               .css(
                 "background-image",
-                "url(" + path + "), , url(../images/characterbase.png)"
+                "url(" + path + "), url(../images/characterbase.png)"
               );
             boardSpot = board.spots[i].validMoves;
           }
@@ -276,11 +282,11 @@ $(document).ready(function() {
 
     var figName2 = $("<figure>");
     figName2.attr("class", "text-center font-weight-bold");
-    figName2.text("Attack :" + character.attack);
+    figName2.text("Attack:" + character.attack);
 
     var figName3 = $("<figure>");
     figName3.attr("class", "text-center font-weight-bold");
-    figName3.text("Weapon :" + character.Item.item_name);
+    figName3.text("HP:" + character.hp);
 
     divImg2.prepend(charImg);
     divImgWell.prepend(figName3);

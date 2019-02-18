@@ -7,13 +7,6 @@ module.exports = function(sequelize, DataTypes) {
     charSelected: DataTypes.BOOLEAN,
     imgLoc: DataTypes.STRING
   });
-  Character.associate = function(models) {
-    Character.belongsTo(models.Item, {
-      foreignKey: {
-        allowNull: false
-      }
-    });
-  };
 
   return Character;
 };
