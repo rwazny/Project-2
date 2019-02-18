@@ -103,6 +103,10 @@ io.on("connection", function(socket) {
   socket.on("playerMove", function(playerId) {
     Game.playerMove(io, playerId);
   });
+
+  socket.on("rollDice", function() {
+    Game.rollDice(io);
+  });
 });
 
 // Starting the server, syncing our models ------------------------------------/

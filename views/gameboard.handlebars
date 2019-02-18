@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-9">
-            <table>
+            <table id="gameboard">
                 <tbody>
                     <tr>
                         <td id="0">0</td>
@@ -42,12 +42,11 @@
             </table>
         </div>
         <div id="player-col" class="col-md-3">
-            <div class="player-card-top">
+            <div class="player-card-top player-num">
                 <div>
-                    <h2 class="player-num">Player: {{user.username}}</h2>
-                    <h5>Current turn: Player <span class="player-turn"></span></h5>
                     <h5>Moves: <span class="player-moves"></span></h5>
-                    <button class="btn" id="end-turn">End Turn</button>
+                    <button class="btn btn-lg" id="roll-dice" disabled>Roll!</button>
+                    <button class="btn btn-lg" id="end-turn" disabled>End Turn</button>
                 </div>
                 <div class="progress">
                     <div class="progress-bar bg-success" style="width:100%" role="progressbar" aria-valuenow="20"
@@ -90,6 +89,7 @@
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
+<script src="/js/roll-a-die.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

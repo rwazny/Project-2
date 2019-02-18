@@ -90,11 +90,11 @@ td {
 }
 
 .player-card-top {
-  height: 192px;
+  height: 110px;
   padding: 8px;
-  background-color: lightslategrey;
   border-radius: 4px;
   margin-top: 8px;
+  overflow: hidden;
 }
 
 .turn-active-card {
@@ -102,20 +102,32 @@ td {
     6px -6px 0px gold;
 }
 
-.player1card {
+#player-card-1 {
   background-color: #a988f8;
+  height: 70px;
+  transition: height 0.5s;
+  overflow: hidden;
 }
 
-.player2card {
+#player-card-2 {
   background-color: chartreuse;
+  height: 70px;
+  transition: height 0.5s;
+  overflow: hidden;
 }
 
-.player3card {
+#player-card-3 {
   background-color: rgb(242, 78, 92);
+  height: 70px;
+  transition: height 0.5s;
+  overflow: hidden;
 }
 
-.player4card {
+#player-card-4 {
   background-color: rgb(111, 229, 225);
+  height: 70px;
+  transition: height 0.5s;
+  overflow: hidden;
 }
 
 .player1 {
@@ -170,7 +182,7 @@ td {
   display: inline-block;
 }
 
-.player-card {
+.character-card {
   padding: 23px;
 }
 

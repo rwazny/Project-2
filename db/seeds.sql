@@ -58,5 +58,6 @@ VALUES("Broccoli", 100, 25, (SELECT id from Items where item_name = "Donut"), ".
 INSERT INTO Characters(character_name, hp, attack, ItemId, imgLoc)
 VALUES("Durian", 100, 25, (SELECT id from Items where item_name = "Cookie"), "../images/Durian.png");
 
+
 SELECT * FROM Characters;
 SELECT * FROM Items;

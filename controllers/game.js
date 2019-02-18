@@ -1,5 +1,5 @@
 var db = require("./../models");
-// const rollADie = require("./../roll-a-die");
+var turnTimer;
 
 var Game = {
   addPlayer: function(io, playerName) {
@@ -216,7 +216,6 @@ var Game = {
           paths["p" + turnAndId.playerTurn] = charData.imgLoc;
           paths = JSON.stringify(paths);
           var startGame = false;
-          console.log("\n\n\n" + paths + "\n\n\n");
 
           if (parseInt(turnAndId.playerTurn) === data[0].currentTurn) {
             var index = data[0].turnOrder.indexOf(data[0].currentTurn);
@@ -236,6 +235,7 @@ var Game = {
               if (startGame) {
                 db.Player.findAll({}).then(function(playerData) {
                   playerData.push(data[0].turnOrder);
+                  Game.startTurnTimer(io, parseInt(data[0].turnOrder[0]), 20);
                   io.emit("startGame", playerData);
                 });
               } else {
@@ -248,7 +248,20 @@ var Game = {
     );
   },
 
-  createBoard: function(io) {},
+  rollDice: function(io) {
+    var num1 = Math.floor(Math.random() * 6) + 1;
+    var num2 = Math.floor(Math.random() * 6) + 1;
+    db.Board.update({ movesRemaining: num1 + num2 }, { where: { id: 1 } }).then(
+      function() {
+        var diceNumbers = {
+          die1: num1,
+          die2: num2,
+          moves: num1 + num2
+        };
+        io.emit("rollDice", diceNumbers);
+      }
+    );
+  },
 
   start: function(io, data) {
     var newOrder = this.newTurnOrder();
@@ -445,7 +458,6 @@ var Game = {
   },
 
   startTurn: function(io, start) {
-    console.log("move 2");
     io.emit("startTurn", start);
   },
 
@@ -483,7 +495,7 @@ var Game = {
 
         db.Board.update({ currentTurn: newTurn }, { where: { id: 1 } }).then(
           function(data) {
-            console.log(data);
+            Game.updateTurnTimer();
             Game.startTurnTimer(io, newTurn, 20);
             io.emit("startTurn", newTurn);
           }
@@ -493,7 +505,7 @@ var Game = {
   },
 
   startTurnTimer: function(io, turn, timerCount) {
-    setTimeout(() => {
+    turnTimer = setTimeout(() => {
       timerCount--;
       io.emit("changeTimer", timerCount);
       if (timerCount <= 0) {
@@ -505,7 +517,9 @@ var Game = {
     }, 1000);
   },
 
-  updateTurnTimer: function(io, turn, timerCount) {}
+  updateTurnTimer: function() {
+    clearTimeout(turnTimer);
+  }
 };
 
 module.exports = Game;
