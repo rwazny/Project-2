@@ -48,7 +48,7 @@ $(document).ready(function() {
       var boardSpot = [];
 
       $(".validMove").removeClass("validMove");
-      $(".validMove").removeClass("validMovePlaceholder");
+      $(".validMovePlaceholder").removeClass("validMovePlaceholder");
       $(".hasPlayer").removeClass("hasPlayer");
       $(".hasItem").removeClass("hasItem");
 
@@ -159,7 +159,7 @@ $(document).ready(function() {
       var boardSpot = [];
 
       $(".validMove").removeClass("validMove");
-      $(".validMove").removeClass("validMovePlaceholder");
+      $(".validMovePlaceholder").removeClass("validMovePlaceholder");
       $(".hasPlayer").removeClass("hasPlayer");
       $(".player" + turn)
         .css("background-image", "none")
@@ -212,7 +212,7 @@ $(document).ready(function() {
     $(".player-moves").text(dice.moves);
     $("#roll-dice").prop("disabled", true);
     // show dice roll
-    const element = document.getElementsByClassName("player-card-top");
+    const element = document.getElementById("roll-div");
     const numberOfDice = 2;
     const options = {
       element,
@@ -294,11 +294,11 @@ $(document).ready(function() {
 
     var figName2 = $("<figure>");
     figName2.attr("class", "text-center font-weight-bold");
-    figName2.text("Attack:" + character.attack);
+    figName2.text("Attack: " + character.attack);
 
     var figName3 = $("<figure>");
     figName3.attr("class", "text-center font-weight-bold");
-    figName3.text("HP:" + character.hp);
+    figName3.text("HP: " + character.hp);
 
     divImg2.prepend(charImg);
     divImgWell.prepend(figName3);
