@@ -48,6 +48,7 @@ $(document).ready(function() {
       var boardSpot = [];
 
       $(".validMove").removeClass("validMove");
+      $(".validMove").removeClass("validMovePlaceholder");
       $(".hasPlayer").removeClass("hasPlayer");
       $(".hasItem").removeClass("hasItem");
 
@@ -104,17 +105,21 @@ $(document).ready(function() {
       }
       $("#end-turn").prop("disabled", true);
       $("#roll-dice").prop("disabled", true);
-      $(".player-turn").text(playerData[4][0]);
-      changeTurn(parseInt(playerData[4][0]), boardSpot);
+      //   $(".player-turn").text(playerData[4][0]);
+      changeTurn(parseInt(playerData[4][0]), boardSpot, false);
     });
   });
 
-  function changeTurn(turn, boardSpot) {
+  function changeTurn(turn, boardSpot, moving) {
     console.log("Current turn: " + turn + ", Your player num: " + playerNum);
     if (turn === playerNum) {
       for (var i = 0; i < boardSpot.length; i++) {
         if (!$("#" + boardSpot[i]).hasClass("hasPlayer")) {
-          $("#" + boardSpot[i]).addClass("validMove");
+          if (moving) {
+            $("#" + boardSpot[i]).addClass("validMove");
+          } else {
+            $("#" + boardSpot[i]).addClass("validMovePlaceholder");
+          }
         }
       }
       $("#end-turn").prop("disabled", false);
@@ -150,9 +155,11 @@ $(document).ready(function() {
     $.get("/api/board", function(data) {
       board = JSON.parse(data[0].boardSpots);
       var paths = JSON.parse(data[0].imagePaths);
+      $(".player-moves").text(data[0].movesRemaining);
       var boardSpot = [];
 
       $(".validMove").removeClass("validMove");
+      $(".validMove").removeClass("validMovePlaceholder");
       $(".hasPlayer").removeClass("hasPlayer");
       $(".player" + turn)
         .css("background-image", "none")
@@ -181,7 +188,11 @@ $(document).ready(function() {
       $("#end-turn").prop("disabled", true);
       $("#roll-dice").prop("disabled", true);
       $(".player-turn").text(turn);
-      changeTurn(turn, boardSpot);
+      if (data[0].movesRemaining <= 0) {
+        changeTurn(turn, boardSpot, false);
+      } else {
+        changeTurn(turn, boardSpot, true);
+      }
     });
   });
 
@@ -201,7 +212,7 @@ $(document).ready(function() {
     $(".player-moves").text(dice.moves);
     $("#roll-dice").prop("disabled", true);
     // show dice roll
-    const element = document.getElementById("gameboard");
+    const element = document.getElementsByClassName("player-card-top");
     const numberOfDice = 2;
     const options = {
       element,
@@ -217,7 +228,8 @@ $(document).ready(function() {
   });
 
   $("#roll-dice").click(function() {
-    socket.emit("rollDice");
+    $(".validMovePlaceholder").addClass("validMove");
+    socket.emit("rollDice", playerNum);
   });
 
   socket.on("clickCharacter", function() {

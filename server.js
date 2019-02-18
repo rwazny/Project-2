@@ -104,8 +104,8 @@ io.on("connection", function(socket) {
     Game.playerMove(io, playerId);
   });
 
-  socket.on("rollDice", function() {
-    Game.rollDice(io);
+  socket.on("rollDice", function(turn) {
+    Game.rollDice(io, turn);
   });
 });
 

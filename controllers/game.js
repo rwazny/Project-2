@@ -310,7 +310,7 @@ var Game = {
     );
   },
 
-  rollDice: function(io) {
+  rollDice: function(io, turn) {
     var num1 = Math.floor(Math.random() * 6) + 1;
     var num2 = Math.floor(Math.random() * 6) + 1;
     db.Board.update({ movesRemaining: num1 + num2 }, { where: { id: 1 } }).then(
@@ -536,11 +536,14 @@ var Game = {
   },
 
   playerMove: function(io, playerId) {
-    var nextTurn = 1;
-    if (playerId === 1) {
-      nextTurn = 2;
-    }
-    io.emit("startTurn", playerId);
+    db.Board.findOne({ where: { id: 1 } }).then(function(board) {
+      db.Board.update(
+        { movesRemaining: board.movesRemaining - 1 },
+        { where: { id: 1 } }
+      ).then(function(data) {
+        io.emit("startTurn", playerId);
+      });
+    });
   },
 
   endTurn: function(io, turn) {
@@ -555,13 +558,14 @@ var Game = {
           newTurn = parseInt(results[0].turnOrder[0]);
         }
 
-        db.Board.update({ currentTurn: newTurn }, { where: { id: 1 } }).then(
-          function(data) {
-            Game.updateTurnTimer();
-            Game.startTurnTimer(io, newTurn, 20);
-            io.emit("startTurn", newTurn);
-          }
-        );
+        db.Board.update(
+          { currentTurn: newTurn, movesRemaining: 0 },
+          { where: { id: 1 } }
+        ).then(function(data) {
+          Game.updateTurnTimer();
+          Game.startTurnTimer(io, newTurn, 20);
+          io.emit("startTurn", newTurn);
+        });
       }
     });
   },

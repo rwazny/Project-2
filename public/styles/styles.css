@@ -79,9 +79,6 @@ td {
   filter: grayscale(100%);
 }
 
-.hasItem {
-  /* background-color: rgba(255, 217, 0, 0.301); */
-}
 .item-image {
   width: 100px;
   height: auto;
@@ -107,61 +104,64 @@ td {
 }
 
 #player-card-1 {
-  background-color: #a988f8;
+  background-color: #008f95;
   height: 70px;
   transition: height 0.5s;
   overflow: hidden;
 }
 
 #player-card-2 {
-  background-color: chartreuse;
+  background-color: #eb6e80;
   height: 70px;
   transition: height 0.5s;
   overflow: hidden;
 }
 
 #player-card-3 {
-  background-color: rgb(242, 78, 92);
+  background-color: #e9b000;
   height: 70px;
   transition: height 0.5s;
   overflow: hidden;
 }
 
 #player-card-4 {
-  background-color: rgb(111, 229, 225);
+  background-color: #e24e42;
   height: 70px;
   transition: height 0.5s;
   overflow: hidden;
 }
 
 .player1 {
-  -webkit-filter: drop-shadow(5px 5px 0px #a988f8);
-  filter: drop-shadow(8px 8px 0px #a988f8) drop-shadow(-8px -8px 0px #a988f8)
-    drop-shadow(-8px 8px 0px #a988f8) drop-shadow(8px -8px 0px #a988f8);
+  -webkit-filter: drop-shadow(5px 5px 0px #008f95);
+  filter: drop-shadow(5px 5px 0px #008f95) drop-shadow(-5px -5px 0px #008f95)
+    drop-shadow(-5px 5px 0px #008f95) drop-shadow(5px -5px 0px #008f95);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
 }
 
 .player2 {
-  -webkit-filter: drop-shadow(5px 5px 5px chartreuse);
-  filter: drop-shadow(5px 5px 0px chartreuse);
+  -webkit-filter: drop-shadow(5px 5px 5px #eb6e80);
+  filter: drop-shadow(5px 5px 0px #eb6e80) drop-shadow(-5px -5px 0px #eb6e80)
+    drop-shadow(-5px 5px 0px #eb6e80) drop-shadow(5px -5px 0px #eb6e80);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
 }
 
 .player3 {
-  -webkit-filter: drop-shadow(5px 5px 5px rgb(242, 78, 92));
-  filter: drop-shadow(5px 5px 0px rgb(242, 78, 92));
+  -webkit-filter: drop-shadow(5px 5px 5px #e9b000);
+  filter: drop-shadow(5px 5px 0px #e9b000) drop-shadow(-5px -5px 0px #e9b000)
+    drop-shadow(-5px 5px 0px #e9b000) drop-shadow(5px -5px 0px #e9b000);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
 }
 
 .player4 {
-  -webkit-filter: drop-shadow(5px 5px 5px rgb(111, 229, 225));
-  filter: drop-shadow(5px 5px 0px rgb(111, 229, 225));
+  -webkit-filter: drop-shadow(5px 5px 5px #e24e42);
+  filter: drop-shadow(5px 5px 0px #e24e42) drop-shadow(-5px -5px 0px #e24e42)
+    drop-shadow(-5px 5px 0px #e24e42) drop-shadow(5px -5px 0px #e24e42);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;

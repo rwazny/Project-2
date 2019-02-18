@@ -42,7 +42,7 @@ VALUES("Pizza", 15, "../images/Pizza.png");
 
 
 INSERT INTO Characters (character_name, hp, attack, imgLoc)
-VALUES("Chilli Pepper", 100, 25, "../images/ChiliPepper.png");
+VALUES("Chili Pepper", 100, 25, "../images/ChiliPepper.png");
 
 INSERT INTO Characters(character_name, hp, attack, imgLoc)
 VALUES("Passion Fruit", 100, 25, "../images/PassionFruit.png");
