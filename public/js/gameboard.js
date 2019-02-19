@@ -33,7 +33,11 @@ $(document).ready(function() {
           .attr("id", "player-card-" + playerData[4][i]);
 
         newPlayerDiv.append("<h5>Player " + playerData[4][i] + "</h5>");
-        newPlayerDiv.append("<p>Score: 0</p>");
+        newPlayerDiv.append(
+          "<p>Score: <span id='score-player-" +
+            playerData[4][i] +
+            "'>0</span></p>"
+        );
         $("#player-col").append(newPlayerDiv);
         if (i === 0) {
           newPlayerDiv.addClass("turn-active-card");
@@ -71,6 +75,7 @@ $(document).ready(function() {
                   "background-image",
                   "url(" + paths.p1 + "), url(../images/characterbase.png)"
                 );
+              $("#battle-image-1").attr("src", paths.p1);
               break;
             case 2:
               $("#" + i)
@@ -79,6 +84,7 @@ $(document).ready(function() {
                   "background-image",
                   "url(" + paths.p2 + "), url(../images/characterbase.png)"
                 );
+              $("#battle-image-2").attr("src", paths.p2);
               break;
             case 3:
               $("#" + i)
@@ -87,6 +93,7 @@ $(document).ready(function() {
                   "background-image",
                   "url(" + paths.p3 + "), url(../images/characterbase.png)"
                 );
+              $("#battle-image-3").attr("src", paths.p3);
               break;
             case 4:
               $("#" + i)
@@ -95,6 +102,7 @@ $(document).ready(function() {
                   "background-image",
                   "url(" + paths.p4 + "), url(../images/characterbase.png)"
                 );
+              $("#battle-image-4").attr("src", paths.p4);
               break;
           }
 
@@ -181,6 +189,7 @@ $(document).ready(function() {
                 "background-image",
                 "url(" + path + "), url(../images/characterbase.png)"
               );
+
             boardSpot = board.spots[i].validMoves;
           }
         }
@@ -197,10 +206,10 @@ $(document).ready(function() {
   });
 
   socket.on("changeTimer", function(secondsLeft) {
-    var max = $(".progress-bar").attr("aria-valuemax");
+    var max = $("#timer-bar").attr("aria-valuemax");
     var percent = (secondsLeft / max) * 100;
-    $(".progress-bar").attr("aria-valuenow", secondsLeft);
-    $(".progress-bar").css("width", percent + "%");
+    $("#timer-bar").attr("aria-valuenow", secondsLeft);
+    $("#timer-bar").css("width", percent + "%");
   });
 
   function response(res) {
@@ -225,11 +234,37 @@ $(document).ready(function() {
 
   socket.on("startBattlePhase", function() {
     $(".attack-btn").prop("disabled", true);
-    $("button-attack-" + playerNum).remove();
+    $("#button-attack-" + playerNum).remove();
     $("#battle-phase-modal").modal({
       backdrop: "static",
       keyboard: false
     });
+    socket.emit("attackPlayer", 0);
+  });
+
+  socket.on("startBattleTurn", function(data) {
+    $(".attack-btn").prop("disabled", true);
+    players = JSON.parse(data.playerValues);
+    var hpValues = [];
+    hpValues.push(players.p1.hp, players.p2.hp, players.p3.hp, players.p4.hp);
+    $("#hp-bar-1").css("width", players.p1.hp + "%");
+    $("#hp-bar-2").css("width", players.p2.hp + "%");
+    $("#hp-bar-3").css("width", players.p3.hp + "%");
+    $("#hp-bar-4").css("width", players.p4.hp + "%");
+
+    if (parseInt(data.currentTurn) === playerNum) {
+      $(".attack-btn").prop("disabled", false);
+      for (var i = 0; i < hpValues.length; i++) {
+        if (hpValues[i] <= 0) {
+          var num = i + 1;
+          $("#button-attack-" + num).prop("disabled", true);
+        }
+      }
+    }
+  });
+
+  socket.on("endBattlePhase", function() {
+    $("#battle-phase-modal").modal("toggle");
   });
 
   $("#end-turn").click(function() {
@@ -358,6 +393,11 @@ $(document).ready(function() {
       socket.emit("clickCharacter");
     });
   }
+
+  $(".attack-btn").click(function() {
+    var id = parseInt($(this).attr("data-id"));
+    socket.emit("attackPlayer", id);
+  });
 
   $("#select-char").click(function() {
     var idstr = $(".char-selected").attr("id");

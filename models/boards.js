@@ -4,7 +4,10 @@ module.exports = function(sequelize, DataTypes) {
     currentTurn: DataTypes.INTEGER,
     boardSpots: DataTypes.TEXT,
     imagePaths: DataTypes.TEXT,
-    movesRemaining: DataTypes.INTEGER
+    movesRemaining: DataTypes.INTEGER,
+    playerValues: DataTypes.TEXT,
+    playerPoints: DataTypes.TEXT,
+    round: DataTypes.INTEGER
   });
   return GameLogic;
 };
