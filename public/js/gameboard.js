@@ -223,6 +223,13 @@ $(document).ready(function() {
     rollADie(options);
   });
 
+  socket.on("startBattlePhase", function() {
+    $("#battle-phase-modal").modal({
+      backdrop: "static",
+      keyboard: false
+    });
+  });
+
   $("#end-turn").click(function() {
     socket.emit("endTurn", playerNum);
   });

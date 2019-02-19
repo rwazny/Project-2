@@ -62,8 +62,32 @@
 
 <div>
 
-    <!-- Modal -->
+    <!-- Character Select Modal -->
     <div class="modal fade bd-example-modal-lg" id="playerSelectModelId" data-turn="" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role=" document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="heading">
+                            <h1>Player <span id="character-turn">0
+                                </span> is choosing</h1>
+                        </div>
+                        <hr>
+                        <div id="container-character">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-player="" id="select-char">Select
+                                Character</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Battle Phase Modal -->
+    <div class="modal fade bd-example-modal-lg" id="battle-phase-modal" data-turn="" tabindex="-1" role="dialog"
         aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role=" document">
             <div class="modal-content">

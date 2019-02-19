@@ -11,6 +11,9 @@ module.exports = function(app) {
   app.get("/gameboard", function(req, res) {
     res.render("gameboard");
   });
+  app.get("/battle", function(req, res) {
+    res.render("battletest");
+  });
   // !! DEBUG, DELETE LATER !!
 
   app.get("/example/:id", function(req, res) {

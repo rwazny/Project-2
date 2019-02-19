@@ -550,12 +550,15 @@ var Game = {
     db.Board.findAll({}).then(function(results) {
       var index = results[0].turnOrder.indexOf(results[0].currentTurn);
       var newTurn;
+      var battle = false;
 
       if (results[0].currentTurn == turn) {
         if (results[0].turnOrder[index + 1]) {
           newTurn = parseInt(results[0].turnOrder[index + 1]);
         } else {
           newTurn = parseInt(results[0].turnOrder[0]);
+          // BATTLE PHASE TRIGGERED HERE
+          battle = true;
         }
 
         db.Board.update(
@@ -564,7 +567,11 @@ var Game = {
         ).then(function(data) {
           Game.updateTurnTimer();
           Game.startTurnTimer(io, newTurn, 20);
-          io.emit("startTurn", newTurn);
+          if (battle) {
+            io.emit("startBattlePhase");
+          } else {
+            io.emit("startTurn", newTurn);
+          }
         });
       }
     });

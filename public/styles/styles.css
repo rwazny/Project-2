@@ -251,3 +251,19 @@ td {
 #list2 ol li p em {
   display: block;
 }
+
+/* Battle Modal */
+.char-battle-img {
+  height: 185px;
+  width: auto;
+  margin-bottom: -40px;
+}
+.battle-text {
+  position: relative;
+  top: 14px;
+  font-weight: bold !important;
+  font-style: italic;
+  font-size: 18px;
+  color: white;
+  text-shadow: 1px 1px 2px black;
+}

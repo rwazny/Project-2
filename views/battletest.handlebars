@@ -1,0 +1,103 @@
+<button id="modal">Show modal</button>
+<div>
+
+    <div class="modal fade bd-example-modal-lg" id="battle-phase-modal" data-turn="" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role=" document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="heading">
+                            <h1>Battle!</h1>
+                        </div>
+                        <div id="battle-div">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <img src="../images/Crab.png" class="char-battle-img center-block">
+                                    <div class="health-bar">
+                                        <div class="">
+                                            <h5 class="battle-text float-left">Player 1</h5>
+                                            <h5 class="battle-text float-right">100 / 100</h5>
+                                        </div><br><br>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-danger" role="progressbar" style="width: 100%"
+                                                aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4">
+                                    <img src="../images/ChiliPepper.png" class="char-battle-img center-block">
+                                    <div class="health-bar">
+                                        <div class="">
+                                            <h5 class="battle-text float-left">Player 2</h5>
+                                            <h5 class="battle-text float-right">100 / 100</h5>
+                                        </div><br><br>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-danger" role="progressbar" style="width: 100%"
+                                                aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-md-4">
+                                    <img src="../images/Durian.png" class="char-battle-img center-block">
+                                    <div class="health-bar">
+                                        <div class="">
+                                            <h5 class="battle-text float-left">Player 3</h5>
+                                            <h5 class="battle-text float-right">100 / 100</h5>
+                                        </div><br><br>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-danger" role="progressbar" style="width: 100%"
+                                                aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4">
+                                    <img src="../images/PassionFruit.png" class="char-battle-img center-block">
+                                    <div class="health-bar">
+                                        <div class="">
+                                            <h5 class="battle-text float-left">Player 4</h5>
+                                            <h5 class="battle-text float-right">100 / 100</h5>
+                                        </div><br><br>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-danger" role="progressbar" style="width: 100%"
+                                                aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="battle-footer">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <h4>Player 2 is attacking...</h4>
+                                </div>
+                                <div class="col-md-7">
+                                    <button class="btn" style="background-color: #008f95">Attack Player 1!</button>
+                                    <button class="btn" style="background-color: #e9b000">Attack Player 3!</button>
+                                    <button class="btn" style="background-color: #e24e42">Attack Player 4!</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script>
+    $(document).ready(function () {
+        $("#modal").click(function () {
+            $("#battle-phase-modal").modal("show");
+        });
+    });
+</script>
