@@ -65,13 +65,14 @@
 //getting to gameboard
 $(function () {
   //display Username
-  $(".welcome").text("Welcome to Food Fight, " + window.location.pathname.split("/")[2] + "!")
+  $(".welcome").text("Welcome to Food Fight " + window.location.pathname.split("/")[2] + "!")
   //Display more information about the game
   $("#more-info").click(function () {
     $('.afterAbout').css('display', 'block')
     $(".viewbtn").css('display', 'none')
     $(".land").css('display', 'none')
   })
+
   //Display Game rules
   $("#game-rules").click(function () {
     $('.afterRules').css('display', 'block')
