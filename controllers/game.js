@@ -235,7 +235,6 @@ var Game = {
     };
 
     db.Item.findAll({}).then(function(items) {
-      console.log("\n\n" + items.length + "\n\n");
       for (var i = 0; i < items.length; i++) {
         var spotId = Math.floor(Math.random() * newBoardSpots.spots.length);
         if (
@@ -246,19 +245,34 @@ var Game = {
           newBoardSpots.spots[spotId].itemId = items[i].id;
           newBoardSpots.spots[spotId].itemPath = items[i].imgLoc;
         } else {
-          console.log("missing 1");
           i--;
         }
       }
 
       newBoardSpots = JSON.stringify(newBoardSpots);
       var paths = { p1: "", p2: "", p3: "", p4: "" };
+      var players = {
+        p1: { attack: 25, hp: 100 },
+        p2: { attack: 25, hp: 100 },
+        p3: { attack: 25, hp: 100 },
+        p4: { attack: 25, hp: 100 }
+      };
+      var points = {
+        p1: 0,
+        p2: 0,
+        p3: 0,
+        p4: 0
+      };
       paths = JSON.stringify(paths);
+      players = JSON.stringify(players);
+      points = JSON.stringify(points);
       var newBoard = {
         turnOrder: newOrder,
         currentTurn: parseInt(newOrder[0]),
         boardSpots: newBoardSpots,
-        imagePaths: paths
+        imagePaths: paths,
+        playerValues: players,
+        playerPoints: points
       };
       db.Board.create(newBoard).then(function() {
         io.emit("startCharSelect", newOrder[0]);
@@ -550,12 +564,15 @@ var Game = {
     db.Board.findAll({}).then(function(results) {
       var index = results[0].turnOrder.indexOf(results[0].currentTurn);
       var newTurn;
+      var battle = false;
 
       if (results[0].currentTurn == turn) {
         if (results[0].turnOrder[index + 1]) {
           newTurn = parseInt(results[0].turnOrder[index + 1]);
         } else {
           newTurn = parseInt(results[0].turnOrder[0]);
+          // BATTLE PHASE TRIGGERED HERE
+          battle = true;
         }
 
         db.Board.update(
@@ -563,8 +580,12 @@ var Game = {
           { where: { id: 1 } }
         ).then(function(data) {
           Game.updateTurnTimer();
-          Game.startTurnTimer(io, newTurn, 20);
-          io.emit("startTurn", newTurn);
+          if (battle) {
+            io.emit("startBattlePhase");
+          } else {
+            Game.startTurnTimer(io, newTurn, 20);
+            io.emit("startTurn", newTurn);
+          }
         });
       }
     });
@@ -585,6 +606,73 @@ var Game = {
 
   updateTurnTimer: function() {
     clearTimeout(turnTimer);
+  },
+
+  startBattlePhase: function() {},
+
+  attackPlayer: function(io, playerId) {
+    db.Board.findOne({ where: { id: 1 } }).then(function(board) {
+      var players = JSON.parse(board.playerValues);
+      var points = JSON.parse(board.playerPoints);
+      var newTurn = parseInt(board.currentTurn);
+      if (playerId > 0) {
+        players["p" + playerId].hp -= 25;
+        if (players["p" + playerId].hp <= 0) {
+          var pointsToAdd = 0;
+          var hpArray = [];
+          hpArray.push(
+            players.p1.hp,
+            players.p2.hp,
+            players.p3.hp,
+            players.p4.hp
+          );
+          var aliveCount = 0;
+          var phaseEnd = false;
+          for (var i = 0; i < hpArray.length; i++) {
+            if (hpArray[i] == 0) pointsToAdd++;
+            if (hpArray[i] > 0) aliveCount++;
+          }
+          if (aliveCount === 1) phaseEnd = true;
+          points["p" + playerId] += pointsToAdd;
+          console.log("p" + playerId + " points: " + points["p" + playerId]);
+        }
+        var index = board.turnOrder.indexOf(board.currentTurn);
+
+        var count = 0;
+        while (count < 4) {
+          index += 1;
+          if (!board.turnOrder[index]) {
+            index = 0;
+          }
+          newTurn = parseInt(board.turnOrder[index]);
+          if (players["p" + newTurn].hp > 0) {
+            break;
+          }
+          count++;
+        }
+      }
+
+      players = JSON.stringify(players);
+      points = JSON.stringify(points);
+      var dataToSend = {
+        playerValues: players,
+        currentTurn: newTurn,
+        playerPoints: points
+      };
+
+      db.Board.update(
+        { playerValues: players, currentTurn: newTurn, playerPoints: points },
+        { where: { id: 1 } }
+      ).then(function() {
+        if (phaseEnd) {
+          Game.startTurnTimer(io, newTurn, 20);
+          io.emit("startTurn", newTurn);
+          io.emit("endBattlePhase", dataToSend);
+        } else {
+          io.emit("startBattleTurn", dataToSend);
+        }
+      });
+    });
   }
 };
 

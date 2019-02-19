@@ -6,10 +6,12 @@
 hr {
   border: 0;
   height: 1px;
-  background-image: linear-gradient(to right,
+  background-image: linear-gradient(
+    to right,
     rgba(0, 0, 0, 0),
     rgba(0, 0, 0, 0.75),
-    rgba(0, 0, 0, 0));
+    rgba(0, 0, 0, 0)
+  );
 }
 
 * {
@@ -131,7 +133,8 @@ td {
 
 .player1 {
   -webkit-filter: drop-shadow(5px 5px 0px #008f95);
-  filter: drop-shadow(5px 5px 0px #008f95) drop-shadow(-5px -5px 0px #008f95) drop-shadow(-5px 5px 0px #008f95) drop-shadow(5px -5px 0px #008f95);
+  filter: drop-shadow(5px 5px 0px #008f95) drop-shadow(-5px -5px 0px #008f95)
+    drop-shadow(-5px 5px 0px #008f95) drop-shadow(5px -5px 0px #008f95);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -139,7 +142,8 @@ td {
 
 .player2 {
   -webkit-filter: drop-shadow(5px 5px 5px #eb6e80);
-  filter: drop-shadow(5px 5px 0px #eb6e80) drop-shadow(-5px -5px 0px #eb6e80) drop-shadow(-5px 5px 0px #eb6e80) drop-shadow(5px -5px 0px #eb6e80);
+  filter: drop-shadow(5px 5px 0px #eb6e80) drop-shadow(-5px -5px 0px #eb6e80)
+    drop-shadow(-5px 5px 0px #eb6e80) drop-shadow(5px -5px 0px #eb6e80);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -147,7 +151,8 @@ td {
 
 .player3 {
   -webkit-filter: drop-shadow(5px 5px 5px #e9b000);
-  filter: drop-shadow(5px 5px 0px #e9b000) drop-shadow(-5px -5px 0px #e9b000) drop-shadow(-5px 5px 0px #e9b000) drop-shadow(5px -5px 0px #e9b000);
+  filter: drop-shadow(5px 5px 0px #e9b000) drop-shadow(-5px -5px 0px #e9b000)
+    drop-shadow(-5px 5px 0px #e9b000) drop-shadow(5px -5px 0px #e9b000);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -155,7 +160,8 @@ td {
 
 .player4 {
   -webkit-filter: drop-shadow(5px 5px 5px #e24e42);
-  filter: drop-shadow(5px 5px 0px #e24e42) drop-shadow(-5px -5px 0px #e24e42) drop-shadow(-5px 5px 0px #e24e42) drop-shadow(5px -5px 0px #e24e42);
+  filter: drop-shadow(5px 5px 0px #e24e42) drop-shadow(-5px -5px 0px #e24e42)
+    drop-shadow(-5px 5px 0px #e24e42) drop-shadow(5px -5px 0px #e24e42);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -241,5 +247,25 @@ td {
   font-size: 25px;
   color: black;
   border-left: 1px solid #999;
-  display: block
+  display: block;
+}
+
+#list2 ol li p em {
+  display: block;
+}
+
+/* Battle Modal */
+.char-battle-img {
+  height: 215px;
+  width: auto;
+  margin-bottom: -55px;
+}
+.battle-text {
+  position: relative;
+  top: 14px;
+  font-weight: bold !important;
+  font-style: italic;
+  font-size: 18px;
+  color: white;
+  text-shadow: 1px 1px 2px black;
 }
