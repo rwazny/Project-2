@@ -114,15 +114,92 @@
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="heading">
-                            <h1>Player <span id="character-turn">0
-                                </span> is choosing</h1>
+                            <h1>Battle!</h1>
                         </div>
-                        <hr>
-                        <div id="container-character">
+                        <div id="battle-div">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <img id="battle-image-1" src="../images/Crab.png"
+                                        class="char-battle-img center-block">
+                                    <div class="health-bar">
+                                        <div class="">
+                                            <h5 class="battle-text" style="float: left">Player 1</h5>
+                                            <h5 class="battle-text" style="float: right">100 / 100</h5>
+                                        </div><br><br>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-danger" role="progressbar" style="width: 100%"
+                                                aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4">
+                                    <img id="battle-image-2" src="../images/ChiliPepper.png"
+                                        class="char-battle-img center-block">
+                                    <div class="health-bar">
+                                        <div class="">
+                                            <h5 class="battle-text" style="float: left">Player 2</h5>
+                                            <h5 class="battle-text" style="float: right">100 / 100</h5>
+                                        </div><br><br>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-danger" role="progressbar" style="width: 100%"
+                                                aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-md-4">
+                                    <img id="battle-image-3" src="../images/Durian.png"
+                                        class="char-battle-img center-block">
+                                    <div class="health-bar">
+                                        <div class="">
+                                            <h5 class="battle-text" style="float: left">Player 3</h5>
+                                            <h5 class="battle-text" style="float: right">100 / 100</h5>
+                                        </div><br><br>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-danger" role="progressbar" style="width: 100%"
+                                                aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4">
+                                    <img id="battle-image-4" src="../images/PassionFruit.png"
+                                        class="char-battle-img center-block">
+                                    <div class="health-bar">
+                                        <div class="">
+                                            <h5 class="battle-text" style="float: left">Player 4</h5>
+                                            <h5 class="battle-text" style="float: right">100 / 100</h5>
+                                        </div><br><br>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-danger" role="progressbar" style="width: 100%"
+                                                aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-player="" id="select-char">Select
-                                Character</button>
+                        <div class="battle-footer">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h4>Player 2 is attacking...</h4>
+                                </div>
+                                <div class="col-md-6">
+                                    <button class="btn attack-btn" id="button-attack-1"
+                                        style="background-color: #008f95">Attack
+                                        Player 1!</button>
+                                    <button class="btn attack-btn" id="button-attack-2"
+                                        style="background-color: #eb6e80">Attack
+                                        Player 2!</button>
+                                    <button class="btn attack-btn" id="button-attack-3"
+                                        style="background-color: #e9b000">Attack
+                                        Player 3!</button>
+                                    <button class="btn attack-btn" id="button-attack-4"
+                                        style="background-color: #e24e42">Attack
+                                        Player 4!</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

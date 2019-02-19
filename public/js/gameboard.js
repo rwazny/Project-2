@@ -224,6 +224,8 @@ $(document).ready(function() {
   });
 
   socket.on("startBattlePhase", function() {
+    $(".attack-btn").prop("disabled", true);
+    $("button-attack-" + playerNum).remove();
     $("#battle-phase-modal").modal({
       backdrop: "static",
       keyboard: false

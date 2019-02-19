@@ -256,9 +256,9 @@ td {
 
 /* Battle Modal */
 .char-battle-img {
-  height: 185px;
+  height: 215px;
   width: auto;
-  margin-bottom: -40px;
+  margin-bottom: -55px;
 }
 .battle-text {
   position: relative;
