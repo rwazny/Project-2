@@ -26,10 +26,11 @@ module.exports = function (app, passport) {
       console.log(res)
       res.redirect('/dashboard/' + req.user.username)
     });
-
+ 
   function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) return next();
 
     res.redirect("/signin");
   }
+
 };
