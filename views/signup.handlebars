@@ -43,27 +43,65 @@
                             <input class="btn" type="submit" value="Sign Up" />
                         </div>
                     </div>
-                </form>
             </div>
-            <div class="mt-5">
-                <h2>Debug Options</h2>
-                <button id="delete-player">Delete Players</button>
-                <button id="add-player">Create Game</button>
-                <button id="reset-characters">Reset Characters</button>
+            </form>
+        </div>
+        <div class="mt-5">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#resetModal">
+                Flip the Table
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="resetModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">WARNING!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Clicking the "Confirm" button will completely reset the board. If anyone is currently playing, the
+                    game will break! Are you sure you want to flip the board?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Nevermind</button>
+                    <button type="button" id="reset-button" class="btn btn-primary"
+                        data-dismiss="modal">Confirm</button>
+                </div>
             </div>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
         $(function () {
-            $("#delete-player").click(function () {
+            $("#reset-button").click(function () {
                 $.ajax("/api/players", {
                     type: "DELETE",
                     success: function (data) {
                         console.log(data);
                     }
-                })
+                });
+                $.get("/api/characters", function (data) {
+                    characterList = data;
+                    characterList.forEach(character => {
+                        var newChar = jQuery.extend(true, {}, character);
+                        newChar.activeFlag = 'N';
+                        newChar.charSelected = false;
+                        $.ajax({
+                            method: "PUT",
+                            url: "/api/characters",
+                            data: newChar
+                        });
+                    });
+                });
             });
+
+
 
             $("#add-player").click(function () {
                 var newPlayer = {
@@ -77,26 +115,6 @@
                         window.open(window.location.origin += "/gameboard", '_blank');
                     }
                 );
-            });
-
-            //resetting active flag and char selected val.
-            $("#reset-characters").click(function () {
-                $.get("/api/characters", function (data) {
-                    characterList = data;
-                    characterList.forEach(character => {
-                        var newChar = jQuery.extend(true, {}, character);
-                        newChar.activeFlag = 'N';
-                        newChar.charSelected = false;
-                        $.ajax({
-                            method: "PUT",
-                            url: "/api/characters",
-                            data: newChar
-                        }).then(function () {
-
-                        });
-
-                    });
-                });
             });
 
 

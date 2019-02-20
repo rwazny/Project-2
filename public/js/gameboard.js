@@ -1,9 +1,9 @@
 //Modal related changes
 var characterList = [];
 var $characterContainer = $("#container-character");
-$(document).ready(function () {
+$(document).ready(function() {
   var socket = io();
-  socket.on("startCharSelect", function (turn) {
+  socket.on("startCharSelect", function(turn) {
     $("#playerSelectModelId").attr("data-turn", turn);
     $("#select-char").attr("data-player", turn);
     $("#character-turn").text(turn);
@@ -12,19 +12,18 @@ $(document).ready(function () {
 
   var playerNum;
 
-  $.get("/api/players", function (data) {
+  $.get("/api/players", function(data) {
     playerNum = data.length;
     $(".player-num").attr("data-player", playerNum);
-
+    console.log(data.length);
     if (data.length === 4) {
       socket.emit("startCharSelect", data);
-      //socket.emit("startGame", data);
     }
   });
 
-  socket.on("startGame", function (playerData) {
+  socket.on("startGame", function(playerData) {
     $("#playerSelectModelId").modal("toggle");
-    $.get("/api/board", function (data) {
+    $.get("/api/board", function(data) {
       for (var i = 0; i < playerData.length - 1; i++) {
         var newPlayerDiv = $("<div>");
         newPlayerDiv
@@ -35,13 +34,13 @@ $(document).ready(function () {
         newPlayerDiv.append("<h5>Player " + playerData[4][i] + "</h5>");
         newPlayerDiv.append(
           "<p>Score: <span id='score-player-" +
-          playerData[4][i] +
-          "'>0</span></p>"
+            playerData[4][i] +
+            "'>0</span></p>"
         );
         $("#player-col").append(newPlayerDiv);
         if (i === 0) {
           newPlayerDiv.addClass("turn-active-card");
-          $("#player-card-" + playerData[4][i]).css("height", "200px");
+          $("#player-card-" + playerData[4][i]).css("height", "210px");
           newPlayerDiv.append($(".player-card-top"));
         }
       }
@@ -61,7 +60,11 @@ $(document).ready(function () {
           var newItemDiv = $("<div>");
           newItemDiv.addClass("hasItem");
           newItemDiv.html(
-            "<img class='item-image' src=" + board.spots[i].itemPath + ">"
+            "<img class='item-image item-" +
+              board.spots[i].itemId +
+              "' src=" +
+              board.spots[i].itemPath +
+              ">"
           );
 
           $("#" + i).append(newItemDiv);
@@ -135,7 +138,7 @@ $(document).ready(function () {
     }
   }
 
-  $(document).on("click", ".validMove", function () {
+  $(document).on("click", ".validMove", function() {
     var newLocation = parseInt($(this).attr("id"));
     var newBoardState = {
       newPosition: newLocation,
@@ -144,13 +147,14 @@ $(document).ready(function () {
     $.ajax("/api/board", {
       type: "PUT",
       data: newBoardState,
-      success: function (data) {
+      success: function(data) {
         socket.emit("playerMove", playerNum);
       }
     });
   });
 
-  socket.on("startTurn", function (turn) {
+  socket.on("startTurn", function(turn) {
+    turn = parseInt(turn);
     $("#player-card-1").css("height", "70px");
     $("#player-card-2").css("height", "70px");
     $("#player-card-3").css("height", "70px");
@@ -158,12 +162,13 @@ $(document).ready(function () {
     $(".turn-active-card").removeClass("turn-active-card");
     $("#player-card-" + turn)
       .addClass("turn-active-card")
-      .css("height", "200px")
+      .css("height", "210px")
       .append($(".player-card-top"));
-    $.get("/api/board", function (data) {
+    $.get("/api/board", function(data) {
       board = JSON.parse(data[0].boardSpots);
       var paths = JSON.parse(data[0].imagePaths);
       $(".player-moves").text(data[0].movesRemaining);
+      $("#round-counter").text(data[0].round);
       var boardSpot = [];
 
       $(".validMove").removeClass("validMove");
@@ -172,16 +177,32 @@ $(document).ready(function () {
       $(".player" + turn)
         .css("background-image", "none")
         .removeClass("player" + turn);
+      $(".hasItem").empty();
       $(".hasItem").removeClass("hasItem");
+
+      var points = JSON.parse(data[0].playerPoints);
+      $("#score-player-1").text(points.p1);
+      $("#score-player-2").text(points.p2);
+      $("#score-player-3").text(points.p3);
+      $("#score-player-4").text(points.p4);
 
       for (var i = 0; i < board.spots.length; i++) {
         if (board.spots[i].hasItem) {
           $("#" + i).addClass("hasItem");
+          var newDiv = $("<div>");
+          newDiv.html(
+            "<img class='item-image item-" +
+              board.spots[i].itemId +
+              "' src=" +
+              board.spots[i].itemPath +
+              ">"
+          );
+          $("#" + i).append(newDiv);
         }
         if (board.spots[i].hasPlayer) {
           $("#" + i).addClass("hasPlayer");
 
-          if (board.spots[i].playerId === turn) {
+          if (board.spots[i].playerId === parseInt(turn)) {
             var path = paths["p" + turn];
             $("#" + i)
               .addClass("player" + turn)
@@ -198,14 +219,14 @@ $(document).ready(function () {
       $("#roll-dice").prop("disabled", true);
       $(".player-turn").text(turn);
       if (data[0].movesRemaining <= 0) {
-        changeTurn(turn, boardSpot, false);
+        changeTurn(parseInt(turn), boardSpot, false);
       } else {
-        changeTurn(turn, boardSpot, true);
+        changeTurn(parseInt(turn), boardSpot, true);
       }
     });
   });
 
-  socket.on("changeTimer", function (secondsLeft) {
+  socket.on("changeTimer", function(secondsLeft) {
     var max = $("#timer-bar").attr("aria-valuemax");
     var percent = (secondsLeft / max) * 100;
     $("#timer-bar").attr("aria-valuenow", secondsLeft);
@@ -217,7 +238,7 @@ $(document).ready(function () {
     console.log(res);
   }
 
-  socket.on("rollDice", function (dice) {
+  socket.on("rollDice", function(dice) {
     $(".player-moves").text(dice.moves);
     $("#roll-dice").prop("disabled", true);
     // show dice roll
@@ -232,7 +253,7 @@ $(document).ready(function () {
     rollADie(options);
   });
 
-  socket.on("startBattlePhase", function () {
+  socket.on("startBattlePhase", function() {
     $(".attack-btn").prop("disabled", true);
     $("#button-attack-" + playerNum).remove();
     $("#battle-phase-modal").modal({
@@ -242,7 +263,7 @@ $(document).ready(function () {
     socket.emit("attackPlayer", 0);
   });
 
-  socket.on("startBattleTurn", function (data) {
+  socket.on("startBattleTurn", function(data) {
     $(".attack-btn").prop("disabled", true);
     players = JSON.parse(data.playerValues);
     var hpValues = [];
@@ -260,44 +281,58 @@ $(document).ready(function () {
           $("#button-attack-" + num).prop("disabled", true);
         }
       }
-    };
+    }
 
-    animateCss("#battle-image-" + data.currentTurn, "bounce")
-
+    animateCss("#battle-image-" + data.target, "bounce");
   });
 
   function animateCss(element, animationName, callback) {
-    const node = document.querySelector(element)
-    node.classList.add('animated', animationName)
+    const node = document.querySelector(element);
+    node.classList.add("animated", animationName);
 
     function handleAnimationEnd() {
-      node.classList.remove('animated', animationName)
-      node.removeEventListener('animationend', handleAnimationEnd)
+      node.classList.remove("animated", animationName);
+      node.removeEventListener("animationend", handleAnimationEnd);
 
-      if (typeof callback === 'function') callback()
+      if (typeof callback === "function") callback();
     }
 
-    node.addEventListener('animationend', handleAnimationEnd)
+    node.addEventListener("animationend", handleAnimationEnd);
   }
-  socket.on("endBattlePhase", function () {
+  socket.on("endBattlePhase", function(turn) {
     $("#battle-phase-modal").modal("toggle");
+    if (parseInt(turn) === playerNum) {
+      $("#end-turn").prop("disabled", false);
+      $("#roll-dice").prop("disabled", false);
+    }
   });
 
-  $("#end-turn").click(function () {
+  $("#end-turn").click(function() {
     socket.emit("endTurn", playerNum);
   });
 
-  $("#roll-dice").click(function () {
+  $("#roll-dice").click(function() {
     $(".validMovePlaceholder").addClass("validMove");
     socket.emit("rollDice", playerNum);
   });
 
-  socket.on("clickCharacter", function () {
+  socket.on("clickCharacter", function() {
     refreshCharacters();
   });
 
+  socket.on("endGame", function(data) {
+    $("#battle-phase-modal").modal("toggle");
+    $("#winner-num").text(data.winner);
+    $("#winner-image").attr("src", data.image);
+    $("#winner-score").text(data.score);
+    $("#endGameModal").modal({
+      backdrop: "static",
+      keyboard: false
+    });
+  });
+
   function refreshCharacters() {
-    $.get("/api/characters", function (data) {
+    $.get("/api/characters", function(data) {
       characterList = data;
       initializeRows();
       $("#playerSelectModelId").modal({
@@ -370,7 +405,7 @@ $(document).ready(function () {
     return playerCardSpan;
   }
 
-  $(document).on("click", ".char-img", function () {
+  $(document).on("click", ".char-img", function() {
     $("");
     var turn = $("#playerSelectModelId").attr("data-turn");
     var playerNum = $(".player-num").attr("data-player");
@@ -405,18 +440,18 @@ $(document).ready(function () {
       method: "PUT",
       url: "/api/characters",
       data: character
-    }).then(function () {
+    }).then(function() {
       socket.emit("clickCharacter");
     });
   }
 
-  $(".attack-btn").click(function () {
+  $(".attack-btn").click(function() {
     //var id = player number of who you are attacking
     var id = parseInt($(this).attr("data-id"));
     socket.emit("attackPlayer", id);
   });
 
-  $("#select-char").click(function () {
+  $("#select-char").click(function() {
     var idstr = $(".char-selected").attr("id");
     var turn = $("#select-char").attr("data-player");
     var idarr = idstr.split("-");
@@ -433,7 +468,7 @@ $(document).ready(function () {
       method: "PUT",
       url: "/api/characters",
       data: character
-    }).then(function () {
+    }).then(function() {
       socket.emit("selectCharacter", turnAndId);
     });
   });

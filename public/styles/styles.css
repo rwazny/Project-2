@@ -6,10 +6,12 @@
 hr {
   border: 0;
   height: 1px;
-  background-image: linear-gradient(to right,
+  background-image: linear-gradient(
+    to right,
     rgba(0, 0, 0, 0),
     rgba(0, 0, 0, 0.75),
-    rgba(0, 0, 0, 0));
+    rgba(0, 0, 0, 0)
+  );
 }
 
 * {
@@ -19,7 +21,7 @@ hr {
 }
 
 body {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   background: #dfdce3;
   color: #1d1e22;
 }
@@ -27,7 +29,7 @@ body {
 a {
   text-decoration: underline;
   color: #4abdac;
-  font-family: 'Oswald', sans-serif;
+  font-family: "Oswald", sans-serif;
   font-size: 60px;
 }
 
@@ -47,7 +49,7 @@ a:hover {
 }
 
 label {
-  font-family: 'Oswald', sans-serif;
+  font-family: "Oswald", sans-serif;
   font-size: 30px;
 }
 
@@ -61,6 +63,7 @@ input {
 }
 
 .background {
+  height: 100vh;
   background-image: linear-gradient(120deg, #fbe912 0%, #e9b000 100%);
   background-size: 400% 400%;
   -webkit-animation: AnimationName 15s ease infinite;
@@ -153,7 +156,7 @@ td {
 }
 
 .player-card-top {
-  height: 110px;
+  height: 120px;
   padding: 8px;
   border-radius: 4px;
   margin-top: 8px;
@@ -195,7 +198,8 @@ td {
 
 .player1 {
   -webkit-filter: drop-shadow(5px 5px 0px #008f95);
-  filter: drop-shadow(5px 5px 0px #008f95) drop-shadow(-5px -5px 0px #008f95) drop-shadow(-5px 5px 0px #008f95) drop-shadow(5px -5px 0px #008f95);
+  filter: drop-shadow(5px 5px 0px #008f95) drop-shadow(-5px -5px 0px #008f95)
+    drop-shadow(-5px 5px 0px #008f95) drop-shadow(5px -5px 0px #008f95);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -203,7 +207,8 @@ td {
 
 .player2 {
   -webkit-filter: drop-shadow(5px 5px 5px #eb6e80);
-  filter: drop-shadow(5px 5px 0px #eb6e80) drop-shadow(-5px -5px 0px #eb6e80) drop-shadow(-5px 5px 0px #eb6e80) drop-shadow(5px -5px 0px #eb6e80);
+  filter: drop-shadow(5px 5px 0px #eb6e80) drop-shadow(-5px -5px 0px #eb6e80)
+    drop-shadow(-5px 5px 0px #eb6e80) drop-shadow(5px -5px 0px #eb6e80);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -211,7 +216,8 @@ td {
 
 .player3 {
   -webkit-filter: drop-shadow(5px 5px 5px #e9b000);
-  filter: drop-shadow(5px 5px 0px #e9b000) drop-shadow(-5px -5px 0px #e9b000) drop-shadow(-5px 5px 0px #e9b000) drop-shadow(5px -5px 0px #e9b000);
+  filter: drop-shadow(5px 5px 0px #e9b000) drop-shadow(-5px -5px 0px #e9b000)
+    drop-shadow(-5px 5px 0px #e9b000) drop-shadow(5px -5px 0px #e9b000);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -219,7 +225,8 @@ td {
 
 .player4 {
   -webkit-filter: drop-shadow(5px 5px 5px #e24e42);
-  filter: drop-shadow(5px 5px 0px #e24e42) drop-shadow(-5px -5px 0px #e24e42) drop-shadow(-5px 5px 0px #e24e42) drop-shadow(5px -5px 0px #e24e42);
+  filter: drop-shadow(5px 5px 0px #e24e42) drop-shadow(-5px -5px 0px #e24e42)
+    drop-shadow(-5px 5px 0px #e24e42) drop-shadow(5px -5px 0px #e24e42);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -263,7 +270,7 @@ td {
 
 .welcome {
   text-align: center;
-  font-family: 'Oswald', sans-serif;
+  font-family: "Oswald", sans-serif;
   font-size: 100px;
   align-items: flex-end;
   min-height: 300px;
@@ -274,7 +281,7 @@ td {
 #title {
   text-align: center;
   text-decoration: underline;
-  font-family: 'Oswald', sans-serif;
+  font-family: "Oswald", sans-serif;
   font-size: 40px;
   color: #f7b733;
 }
@@ -320,10 +327,27 @@ td {
 
 .battle-text {
   position: relative;
-  top: 14px;
+  top: 8px;
   font-weight: bold !important;
   font-style: italic;
-  font-size: 18px;
+  font-size: 19px;
   color: white;
-  text-shadow: 1px 1px 2px black;
+  text-shadow: 1px 1px 1px black;
+}
+
+.battle-heading {
+  text-align: center;
+  font-weight: bold;
+  font-style: italic;
+  font-size: 60px;
+  text-shadow: 3px 3px 1px #ff00ad;
+  color: #40eefb;
+}
+
+/* Winner Modal */
+#winner-image {
+  height: 330px;
+  width: auto;
+  margin-top: -40px;
+  margin-bottom: -50px;
 }
