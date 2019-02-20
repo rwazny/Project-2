@@ -457,6 +457,7 @@ var Game = {
       var players = JSON.parse(board.playerValues);
       var points = JSON.parse(board.playerPoints);
       var newTurn = parseInt(board.currentTurn);
+      var hitTarget = playerId;
       if (playerId > 0) {
         players["p" + playerId].hp -= players["p" + newTurn].attack;
         if (players["p" + playerId].hp <= 0) {
@@ -505,7 +506,8 @@ var Game = {
       var dataToSend = {
         playerValues: players,
         currentTurn: newTurn,
-        playerPoints: points
+        playerPoints: points,
+        target: hitTarget
       };
 
       db.Board.update(
