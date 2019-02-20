@@ -40,7 +40,7 @@ $(document).ready(function() {
         $("#player-col").append(newPlayerDiv);
         if (i === 0) {
           newPlayerDiv.addClass("turn-active-card");
-          $("#player-card-" + playerData[4][i]).css("height", "200px");
+          $("#player-card-" + playerData[4][i]).css("height", "210px");
           newPlayerDiv.append($(".player-card-top"));
         }
       }
@@ -161,12 +161,13 @@ $(document).ready(function() {
     $(".turn-active-card").removeClass("turn-active-card");
     $("#player-card-" + turn)
       .addClass("turn-active-card")
-      .css("height", "200px")
+      .css("height", "210px")
       .append($(".player-card-top"));
     $.get("/api/board", function(data) {
       board = JSON.parse(data[0].boardSpots);
       var paths = JSON.parse(data[0].imagePaths);
       $(".player-moves").text(data[0].movesRemaining);
+      $("#round-counter").text(data[0].round);
       var boardSpot = [];
 
       $(".validMove").removeClass("validMove");
@@ -177,6 +178,12 @@ $(document).ready(function() {
         .removeClass("player" + turn);
       $(".hasItem").empty();
       $(".hasItem").removeClass("hasItem");
+
+      var points = JSON.parse(data[0].playerPoints);
+      $("#score-player-1").text(points.p1);
+      $("#score-player-2").text(points.p2);
+      $("#score-player-3").text(points.p3);
+      $("#score-player-4").text(points.p4);
 
       for (var i = 0; i < board.spots.length; i++) {
         if (board.spots[i].hasItem) {
@@ -291,6 +298,17 @@ $(document).ready(function() {
 
   socket.on("clickCharacter", function() {
     refreshCharacters();
+  });
+
+  socket.on("endGame", function(data) {
+    $("#battle-phase-modal").modal("toggle");
+    $("#winner-num").text(data.winner);
+    $("#winner-image").attr("src", data.image);
+    $("#winner-score").text(data.score);
+    $("#endGameModal").modal({
+      backdrop: "static",
+      keyboard: false
+    });
   });
 
   function refreshCharacters() {

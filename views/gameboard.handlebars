@@ -21,7 +21,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-9">
-            <h1>Round <span id="round-counter">1</span></h1>
+            <h1 class="battle-heading">Round <span id="round-counter">1</span></h1>
             <table id="gameboard">
                 <tbody>
                     <tr>
@@ -66,8 +66,10 @@
             <div class="player-card-top player-num">
                 <div>
                     <h5>Moves: <span class="player-moves"></span></h5>
-                    <button class="btn btn-lg" id="roll-dice" disabled>Roll!</button>
-                    <button class="btn btn-lg" id="end-turn" disabled>End Turn</button>
+                    <button class="btn btn-lg mb-3 ml-4 mr-3" id="roll-dice" style="background-color: #000000ad"
+                        disabled>Roll!</button>
+                    <button class="btn btn-lg mb-3" id="end-turn" style="background-color: #000000ad" disabled>End
+                        Turn</button>
                 </div>
                 <div class="progress">
                     <div id="timer-bar" class="progress-bar bg-success" style="width:100%" role="progressbar"
@@ -78,20 +80,18 @@
         </div>
     </div>
 </div>
-<a href="/logout">Logout</a>
-</div>
 
 <div>
-
     <!-- Character Select Modal -->
     <div class="modal fade bd-example-modal-lg" id="playerSelectModelId" data-turn="" tabindex="-1" role="dialog"
         aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role=" document">
-            <div class="modal-content">
+            <div class="modal-content"
+                style="background: linear-gradient(135deg, #964870 0%,#937785 17%,#c4aeba 27%,#cec6c0 79%,#bc462f 100%)">
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="heading">
-                            <h1>Player <span id="character-turn">0
+                            <h1 class="battle-heading">Player <span id="character-turn">0
                                 </span> is choosing</h1>
                         </div>
                         <hr>
@@ -111,11 +111,11 @@
     <div class="modal fade bd-example-modal-lg" id="battle-phase-modal" data-turn="" tabindex="-1" role="dialog"
         aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role=" document">
-            <div class="modal-content">
+            <div class="modal-content" style="background: linear-gradient(135deg, #fb83fa 0%,#97c6d8 75%,#97c6d8 100%)">
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="heading">
-                            <h1>Battle!</h1>
+                            <h1 class="battle-heading">Battle!</h1>
                         </div>
                         <div id="battle-div">
                             <div class="row">
@@ -124,8 +124,7 @@
                                         class="char-battle-img center-block">
                                     <div class="health-bar">
                                         <div class="">
-                                            <h5 class="battle-text" style="float: left">Player 1</h5>
-                                            <h5 class="battle-text" style="float: right">100 / 100</h5>
+                                            <h5 class="battle-text" style="float: left; color: #008f95">Player 1</h5>
                                         </div><br><br>
                                         <div class="progress">
                                             <div id="hp-bar-1" class="progress-bar bg-danger" role="progressbar"
@@ -140,8 +139,7 @@
                                         class="char-battle-img center-block">
                                     <div class="health-bar">
                                         <div class="">
-                                            <h5 class="battle-text" style="float: left">Player 2</h5>
-                                            <h5 class="battle-text" style="float: right">100 / 100</h5>
+                                            <h5 class="battle-text" style="float: left; color: #eb6e80">Player 2</h5>
                                         </div><br><br>
                                         <div class="progress">
                                             <div id="hp-bar-2" class="progress-bar bg-danger" role="progressbar"
@@ -157,8 +155,7 @@
                                         class="char-battle-img center-block">
                                     <div class="health-bar">
                                         <div class="">
-                                            <h5 class="battle-text" style="float: left">Player 3</h5>
-                                            <h5 class="battle-text" style="float: right">100 / 100</h5>
+                                            <h5 class="battle-text" style="float: left; color: #e9b000">Player 3</h5>
                                         </div><br><br>
                                         <div class="progress">
                                             <div id="hp-bar-3" class="progress-bar bg-danger" role="progressbar"
@@ -173,8 +170,7 @@
                                         class="char-battle-img center-block">
                                     <div class="health-bar">
                                         <div class="">
-                                            <h5 class="battle-text" style="float: left">Player 4</h5>
-                                            <h5 class="battle-text" style="float: right">100 / 100</h5>
+                                            <h5 class="battle-text" style="float: left; color: #e24e42">Player 4</h5>
                                         </div><br><br>
                                         <div class="progress">
                                             <div id="hp-bar-4" class="progress-bar bg-danger" role="progressbar"
@@ -188,7 +184,7 @@
                         <div class="battle-footer">
                             <div class="row">
                                 <div class="col-md-5">
-                                    <h4>Player 2 is attacking...</h4>
+                                    <h4>Player <span id="attack-turn">0</span> is attacking...</h4>
                                 </div>
                                 <div class="col-md-7">
                                     <button data-id="1" class="btn attack-btn" id="button-attack-1"
@@ -212,7 +208,33 @@
         </div>
     </div>
 
-    <button type="submit" class="btn btn-primary submit">Select Player</button>
+    <!-- Winner Modal -->
+    <div class="modal fade bd-example-modal-lg" id="endGameModal" data-turn="" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role=" document">
+            <div class="modal-content" style="background: linear-gradient(151deg, #f1e767 0%,#dd931b 100%)">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div id="container-character">
+                            <div class="justify-content-center">
+                                <div class="row justify-content-center">
+                                    <h1 style="z-index: 1" class="battle-heading">Player <span id="winner-num">0</span>
+                                        is the Grocery
+                                        Champion!</h1>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <img id="winner-image" src="">
+                                </div>
+                                <div class="row justify-content-center">
+                                    <h3>Score: <span id="winner-score">0</span></h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>

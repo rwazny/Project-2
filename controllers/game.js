@@ -251,6 +251,7 @@ var Game = {
         p3: 0,
         p4: 0
       };
+
       paths = JSON.stringify(paths);
       players = JSON.stringify(players);
       points = JSON.stringify(points);
@@ -260,7 +261,8 @@ var Game = {
         boardSpots: newBoardSpots,
         imagePaths: paths,
         playerValues: players,
-        playerPoints: points
+        playerPoints: points,
+        round: 1
       };
       console.log("\n\n" + newBoard + "\n\n");
       db.Board.create(newBoard).then(function() {
@@ -270,6 +272,11 @@ var Game = {
   },
 
   spawnNewItems: function(items, board) {
+    for (var i = 0; i < board.spots.length; i++) {
+      board.spots[i].hasItem = false;
+      board.spots[i].itemPath = "";
+      board.spots[i].itemId = 0;
+    }
     for (var i = 0; i < items.length; i++) {
       var spotId = Math.floor(Math.random() * board.spots.length);
       if (!board.spots[spotId].hasPlayer && !board.spots[spotId].hasItem) {
@@ -371,7 +378,7 @@ var Game = {
             boardSpotsObj.spots[i].hasItem
           ) {
             var item = boardSpotsObj.spots[i].itemId;
-            var attackToAdd = items[item].attack;
+            var attackToAdd = items[item - 1].attack;
             players["p" + playerId].attack += attackToAdd;
             boardSpotsObj.spots[i].itemId = 0;
             boardSpotsObj.spots[i].itemPath = "";
@@ -467,7 +474,13 @@ var Game = {
             if (hpArray[i] <= 0) pointsToAdd++;
             if (hpArray[i] > 0) aliveCount++;
           }
-          if (aliveCount === 1) phaseEnd = true;
+
+          // When one player is alive, find who attacked last and add 5 to points
+          if (aliveCount === 1) {
+            var lastId = board.currentTurn;
+            points["p" + lastId] += 5;
+            phaseEnd = true;
+          }
           points["p" + playerId] += pointsToAdd;
           console.log("p" + playerId + " points: " + points["p" + playerId]);
         }
@@ -536,19 +549,41 @@ var Game = {
         { where: { id: 1 } }
       ).then(function() {
         console.log(round);
-        if (round < 3) {
+        if (round < 4) {
           Game.startTurnTimer(io, turnOrder[0], 20);
           io.emit("startTurn", turnOrder[0]);
           io.emit("endBattlePhase");
         } else {
           // END GAME TRIGGER
+          Game.endGame(io);
         }
       });
+    });
+  },
+
+  endGame: function(io) {
+    db.Board.findOne({ where: { id: 1 } }).then(function(board) {
+      var playerImages = JSON.parse(board.imagePaths);
+      var points = JSON.parse(board.playerPoints);
+      var pointsArray = [points.p1, points.p2, points.p3, points.p4];
+
+      pointsArray.sort(function(a, b) {
+        return b - a;
+      });
+
+      var winnerNum = Object.keys(points).find(
+        key => points[key] === pointsArray[0]
+      );
+      winnerNum = winnerNum[1];
+
+      var dataToSend = {
+        winner: winnerNum,
+        image: playerImages["p" + winnerNum],
+        score: points["p" + winnerNum]
+      };
+      io.emit("endGame", dataToSend);
     });
   }
 };
 
 module.exports = Game;
-
-// Unhandled rejection TypeError: Cannot read property 'attack' of undefined
-//     at C:\Users\Laptop\Bootcamp\Projects\Project-2\controllers\game.js:374:43
