@@ -15,7 +15,7 @@ $(document).ready(function() {
   $.get("/api/players", function(data) {
     playerNum = data.length;
     $(".player-num").attr("data-player", playerNum);
-
+    console.log(data.length);
     if (data.length === 4) {
       socket.emit("startCharSelect", data);
       //socket.emit("startGame", data);
@@ -61,7 +61,11 @@ $(document).ready(function() {
           var newItemDiv = $("<div>");
           newItemDiv.addClass("hasItem");
           newItemDiv.html(
-            "<img class='item-image' src=" + board.spots[i].itemPath + ">"
+            "<img class='item-image item-" +
+              board.spots[i].itemId +
+              "' src=" +
+              board.spots[i].itemPath +
+              ">"
           );
 
           $("#" + i).append(newItemDiv);
@@ -172,11 +176,21 @@ $(document).ready(function() {
       $(".player" + turn)
         .css("background-image", "none")
         .removeClass("player" + turn);
+      $(".hasItem").empty();
       $(".hasItem").removeClass("hasItem");
 
       for (var i = 0; i < board.spots.length; i++) {
         if (board.spots[i].hasItem) {
           $("#" + i).addClass("hasItem");
+          var newDiv = $("<div>");
+          newDiv.html(
+            "<img class='item-image item-" +
+              board.spots[i].itemId +
+              "' src=" +
+              board.spots[i].itemPath +
+              ">"
+          );
+          $("#" + i).append(newDiv);
         }
         if (board.spots[i].hasPlayer) {
           $("#" + i).addClass("hasPlayer");

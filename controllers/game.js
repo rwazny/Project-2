@@ -235,6 +235,7 @@ var Game = {
     };
 
     db.Item.findAll({}).then(function(items) {
+      console.log(items.length);
       for (var i = 0; i < items.length; i++) {
         var spotId = Math.floor(Math.random() * newBoardSpots.spots.length);
         if (
@@ -274,6 +275,7 @@ var Game = {
         playerValues: players,
         playerPoints: points
       };
+      console.log("\n\n" + newBoard + "\n\n");
       db.Board.create(newBoard).then(function() {
         io.emit("startCharSelect", newOrder[0]);
       });
@@ -551,11 +553,37 @@ var Game = {
 
   playerMove: function(io, playerId) {
     db.Board.findOne({ where: { id: 1 } }).then(function(board) {
-      db.Board.update(
-        { movesRemaining: board.movesRemaining - 1 },
-        { where: { id: 1 } }
-      ).then(function(data) {
-        io.emit("startTurn", playerId);
+      db.Item.findAll({}).then(function(items) {
+        var boardSpotsObj = JSON.parse(board.boardSpots);
+        var players = JSON.parse(board.playerValues);
+        console.log("game.js: ", new Date());
+        for (var i = 0; i < boardSpotsObj.spots.length; i++) {
+          if (
+            boardSpotsObj.spots[i].hasPlayer &&
+            boardSpotsObj.spots[i].hasItem
+          ) {
+            var item = boardSpotsObj.spots[i].itemId;
+            var attackToAdd = items[item].attack;
+            players["p" + playerId].attack += attackToAdd;
+            boardSpotsObj.spots[i].itemId = 0;
+            boardSpotsObj.spots[i].itemPath = "";
+            boardSpotsObj.spots[i].hasItem = false;
+          }
+        }
+
+        boardSpotsObj = JSON.stringify(boardSpotsObj);
+        players = JSON.stringify(players);
+
+        db.Board.update(
+          {
+            movesRemaining: board.movesRemaining - 1,
+            playerValues: players,
+            boardSpots: boardSpotsObj
+          },
+          { where: { id: 1 } }
+        ).then(function(data) {
+          io.emit("startTurn", playerId);
+        });
       });
     });
   },
@@ -571,7 +599,6 @@ var Game = {
           newTurn = parseInt(results[0].turnOrder[index + 1]);
         } else {
           newTurn = parseInt(results[0].turnOrder[0]);
-          // BATTLE PHASE TRIGGERED HERE
           battle = true;
         }
 
@@ -616,7 +643,7 @@ var Game = {
       var points = JSON.parse(board.playerPoints);
       var newTurn = parseInt(board.currentTurn);
       if (playerId > 0) {
-        players["p" + playerId].hp -= 25;
+        players["p" + playerId].hp -= players["p" + newTurn].attack;
         if (players["p" + playerId].hp <= 0) {
           var pointsToAdd = 0;
           var hpArray = [];
