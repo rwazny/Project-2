@@ -235,20 +235,7 @@ var Game = {
     };
 
     db.Item.findAll({}).then(function(items) {
-      console.log(items.length);
-      for (var i = 0; i < items.length; i++) {
-        var spotId = Math.floor(Math.random() * newBoardSpots.spots.length);
-        if (
-          !newBoardSpots.spots[spotId].hasPlayer &&
-          !newBoardSpots.spots[spotId].hasItem
-        ) {
-          newBoardSpots.spots[spotId].hasItem = true;
-          newBoardSpots.spots[spotId].itemId = items[i].id;
-          newBoardSpots.spots[spotId].itemPath = items[i].imgLoc;
-        } else {
-          i--;
-        }
-      }
+      newBoardSpots = Game.spawnNewItems(items, newBoardSpots);
 
       newBoardSpots = JSON.stringify(newBoardSpots);
       var paths = { p1: "", p2: "", p3: "", p4: "" };
@@ -280,6 +267,21 @@ var Game = {
         io.emit("startCharSelect", newOrder[0]);
       });
     });
+  },
+
+  spawnNewItems: function(items, board) {
+    for (var i = 0; i < items.length; i++) {
+      var spotId = Math.floor(Math.random() * board.spots.length);
+      if (!board.spots[spotId].hasPlayer && !board.spots[spotId].hasItem) {
+        board.spots[spotId].hasItem = true;
+        board.spots[spotId].itemId = items[i].id;
+        board.spots[spotId].itemPath = items[i].imgLoc;
+      } else {
+        i--;
+      }
+    }
+
+    return board;
   },
 
   clickCharacter: function(io) {
@@ -339,200 +341,6 @@ var Game = {
         io.emit("rollDice", diceNumbers);
       }
     );
-  },
-
-  start: function(io, data) {
-    var newOrder = this.newTurnOrder();
-    var newBoardSpots = {
-      spots: [
-        {
-          // 0
-          hasPlayer: true,
-          hasItem: false,
-          validMoves: [1, 5],
-          playerId: 1
-        },
-        {
-          // 1
-          hasPlayer: false,
-          hasItem: true,
-          validMoves: [0, 2, 6],
-          playerId: 0
-        },
-        {
-          // 2
-          hasPlayer: false,
-          hasItem: false,
-          validMoves: [1, 3, 7],
-          playerId: 0
-        },
-        {
-          // 3
-          hasPlayer: false,
-          hasItem: false,
-          validMoves: [2, 4, 8],
-          playerId: 0
-        },
-        {
-          // 4
-          hasPlayer: true,
-          hasItem: false,
-          validMoves: [3, 9],
-          playerId: 2
-        },
-        {
-          // 5
-          hasPlayer: false,
-          hasItem: true,
-          validMoves: [0, 10],
-          playerId: 0
-        },
-        {
-          // 6
-          hasPlayer: false,
-          hasItem: false,
-          validMoves: [1, 11],
-          playerId: 0
-        },
-        {
-          // 7
-          hasPlayer: false,
-          hasItem: false,
-          validMoves: [2, 12],
-          playerId: 0
-        },
-        {
-          // 8
-          hasPlayer: false,
-          hasItem: false,
-          validMoves: [3, 9, 13],
-          playerId: 0
-        },
-        {
-          // 9
-          hasPlayer: false,
-          hasItem: false,
-          validMoves: [4, 8, 14],
-          playerId: 0
-        },
-        {
-          // 10
-          hasPlayer: false,
-          hasItem: false,
-          validMoves: [5, 15],
-          playerId: 0
-        },
-        {
-          // 11
-          hasPlayer: false,
-          hasItem: false,
-          validMoves: [6, 16],
-          playerId: 0
-        },
-        {
-          // 12
-          hasPlayer: false,
-          hasItem: false,
-          validMoves: [7, 17],
-          playerId: 0
-        },
-        {
-          // 13
-          hasPlayer: false,
-          hasItem: true,
-          validMoves: [8, 14, 18],
-          playerId: 0
-        },
-        {
-          // 14
-          hasPlayer: false,
-          hasItem: false,
-          validMoves: [9, 13, 19],
-          playerId: 0
-        },
-        {
-          // 15
-          hasPlayer: false,
-          hasItem: false,
-          validMoves: [10, 20],
-          playerId: 0
-        },
-        {
-          // 16
-          hasPlayer: false,
-          hasItem: false,
-          validMoves: [11, 21],
-          playerId: 0
-        },
-        {
-          // 17
-          hasPlayer: false,
-          hasItem: false,
-          validMoves: [12, 22],
-          playerId: 0
-        },
-        {
-          // 18
-          hasPlayer: false,
-          hasItem: false,
-          validMoves: [13, 19, 23],
-          playerId: 0
-        },
-        {
-          // 19
-          hasPlayer: false,
-          hasItem: false,
-          validMoves: [14, 18, 24],
-          playerId: 0
-        },
-        {
-          // 20
-          hasPlayer: true,
-          hasItem: false,
-          validMoves: [15, 21],
-          playerId: 3
-        },
-        {
-          // 21
-          hasPlayer: false,
-          hasItem: false,
-          validMoves: [16, 20, 22],
-          playerId: 0
-        },
-        {
-          // 22
-          hasPlayer: false,
-          hasItem: true,
-          validMoves: [17, 21, 23],
-          playerId: 0
-        },
-        {
-          // 23
-          hasPlayer: false,
-          hasItem: false,
-          validMoves: [18, 22, 24],
-          playerId: 0
-        },
-        {
-          // 24
-          hasPlayer: true,
-          hasItem: false,
-          validMoves: [19, 23],
-          playerId: 4
-        }
-      ]
-    };
-    newBoardSpots = JSON.stringify(newBoardSpots);
-    var newBoard = {
-      turnOrder: newOrder,
-      currentTurn: parseInt(newOrder[0]),
-      boardSpots: newBoardSpots
-    };
-    data.push(newOrder);
-    db.Board.create(newBoard).then(function() {
-      Game.startTurnTimer(io, parseInt(newOrder[0]), 20);
-      io.emit("startGame", data);
-    });
   },
 
   startTurn: function(io, start) {
@@ -656,7 +464,7 @@ var Game = {
           var aliveCount = 0;
           var phaseEnd = false;
           for (var i = 0; i < hpArray.length; i++) {
-            if (hpArray[i] == 0) pointsToAdd++;
+            if (hpArray[i] <= 0) pointsToAdd++;
             if (hpArray[i] > 0) aliveCount++;
           }
           if (aliveCount === 1) phaseEnd = true;
@@ -692,11 +500,48 @@ var Game = {
         { where: { id: 1 } }
       ).then(function() {
         if (phaseEnd) {
-          Game.startTurnTimer(io, newTurn, 20);
-          io.emit("startTurn", newTurn);
-          io.emit("endBattlePhase", dataToSend);
+          Game.resetShoppingPhase(
+            io,
+            JSON.parse(board.boardSpots),
+            board.turnOrder,
+            board.round
+          );
         } else {
           io.emit("startBattleTurn", dataToSend);
+        }
+      });
+    });
+  },
+
+  resetShoppingPhase: function(io, board, turnOrder, round) {
+    db.Item.findAll({}).then(function(items) {
+      board = Game.spawnNewItems(items, board);
+      round++;
+      board = JSON.stringify(board);
+      var players = {
+        p1: { attack: 25, hp: 100 },
+        p2: { attack: 25, hp: 100 },
+        p3: { attack: 25, hp: 100 },
+        p4: { attack: 25, hp: 100 }
+      };
+      players = JSON.stringify(players);
+
+      db.Board.update(
+        {
+          boardSpots: board,
+          currentTurn: turnOrder[0],
+          playerValues: players,
+          round: round
+        },
+        { where: { id: 1 } }
+      ).then(function() {
+        console.log(round);
+        if (round < 3) {
+          Game.startTurnTimer(io, turnOrder[0], 20);
+          io.emit("startTurn", turnOrder[0]);
+          io.emit("endBattlePhase");
+        } else {
+          // END GAME TRIGGER
         }
       });
     });
@@ -704,3 +549,6 @@ var Game = {
 };
 
 module.exports = Game;
+
+// Unhandled rejection TypeError: Cannot read property 'attack' of undefined
+//     at C:\Users\Laptop\Bootcamp\Projects\Project-2\controllers\game.js:374:43

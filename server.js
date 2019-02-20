@@ -87,11 +87,6 @@ io.on("connection", function(socket) {
     Game.selectCharacter(io, turnAndId);
   });
 
-  socket.on("startGame", function(data) {
-    console.log("start 1");
-    Game.start(io, data);
-  });
-
   socket.on("endTurn", function(turn) {
     Game.endTurn(io, turn);
   });

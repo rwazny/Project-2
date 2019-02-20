@@ -18,7 +18,6 @@ $(document).ready(function() {
     console.log(data.length);
     if (data.length === 4) {
       socket.emit("startCharSelect", data);
-      //socket.emit("startGame", data);
     }
   });
 
