@@ -554,7 +554,7 @@ var Game = {
         if (round < 4) {
           Game.startTurnTimer(io, turnOrder[0], 20);
           io.emit("startTurn", turnOrder[0]);
-          io.emit("endBattlePhase");
+          io.emit("endBattlePhase", turnOrder[0]);
         } else {
           // END GAME TRIGGER
           Game.endGame(io);
